@@ -1,12 +1,9 @@
-import type { ArticleSection, Locale, ResearchAttachment } from '@/types';
+import type { ArticleSection, Locale, ResearchAttachment, RichArticleContent } from '@/types';
+import { additionalRichArticles } from '@/data/articles/additional';
 
 const t = (en: string, fr: string, pt: string, es: string): Record<Locale, string> => ({ en, fr, pt, es });
 
-export interface RichArticleContent {
-  coverImage: string;
-  body: ArticleSection[];
-  attachments: ResearchAttachment[];
-}
+export type { RichArticleContent };
 
 export const richArticles: Record<string, RichArticleContent> = {
   'just-transition-workers-north-sea': {
@@ -347,6 +344,7 @@ export const richArticles: Record<string, RichArticleContent> = {
       },
     ],
   },
+  ...additionalRichArticles,
 };
 
 export function getRichArticle(slug: string): RichArticleContent | undefined {

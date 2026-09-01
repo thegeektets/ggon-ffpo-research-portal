@@ -29,6 +29,12 @@ export type ArticleSection =
       height?: number;
     };
 
+export interface RichArticleContent {
+  coverImage: string;
+  body: ArticleSection[];
+  attachments: ResearchAttachment[];
+}
+
 export interface User {
   id: string;
   name: string;
