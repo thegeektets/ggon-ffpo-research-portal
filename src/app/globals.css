@@ -19,6 +19,7 @@ body {
   font-family: var(--font-open-sans), 'Open Sans', sans-serif;
   color: var(--ggon-body);
   background: #fff;
+  overflow-x: clip;
 }
 
 h1,
@@ -132,10 +133,16 @@ h3,
 }
 
 .ggon-page-banner {
-  margin: -2rem -1rem 2rem;
+  margin: 0 0 2rem;
   padding: 2rem 1rem;
   background: linear-gradient(120deg, #1a6b7a 0%, #2d6a4f 100%);
   color: #fff;
+}
+
+@media (min-width: 768px) {
+  .ggon-page-banner {
+    margin: -2rem -1rem 2rem;
+  }
 }
 
 .ggon-page-banner h1,

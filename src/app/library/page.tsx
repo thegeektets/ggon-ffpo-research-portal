@@ -71,8 +71,10 @@ function LibraryContent() {
       )}
 
       <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
-        <FilterPanel filters={filters} onChange={updateFilters} onClearAll={clearAll} />
-        <div>
+        <div className="order-2 lg:order-1">
+          <FilterPanel filters={filters} onChange={updateFilters} onClearAll={clearAll} />
+        </div>
+        <div className="order-1 lg:order-2">
           <p className="mb-4 text-sm font-medium text-[#1a6b7a]">
             {results.length} {results.length === 1 ? 'result' : 'results'}
             {!filtered && ` · ${researchLibrary.length} total`}
