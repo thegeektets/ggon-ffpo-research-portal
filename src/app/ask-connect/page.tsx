@@ -15,7 +15,7 @@ export default function AskConnectPage() {
         production.
       </p>
       {sent ? (
-        <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
+        <p className="ggon-section-alt border border-[#dcdcdc] p-4">
           Your message has been sent to the GGON research coordinator (demo).
         </p>
       ) : (
@@ -40,7 +40,7 @@ export default function AskConnectPage() {
               <option>Other</option>
             </select>
           </label>
-          <button type="submit" className="rounded-lg bg-emerald-700 px-4 py-2 text-white">
+          <button type="submit" className="ggon-btn">
             Send
           </button>
         </form>

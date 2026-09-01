@@ -53,7 +53,7 @@ export default function LoginPage() {
             required
           />
         </label>
-        <button type="submit" className="w-full rounded-lg bg-emerald-700 py-2 font-medium text-white">
+        <button type="submit" className="ggon-btn w-full">
           {tr('login')}
         </button>
       </form>

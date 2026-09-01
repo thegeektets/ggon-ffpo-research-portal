@@ -15,7 +15,7 @@ export default function RegisterPage() {
     <div className="mx-auto max-w-md space-y-6">
       <h1 className="text-2xl font-bold">{tr('register')}</h1>
       {done ? (
-        <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
+        <p className="ggon-section-alt border border-[#dcdcdc] p-4 text-[#242424]">
           Registration submitted. An administrator will review your request before granting access.
         </p>
       ) : (
@@ -45,7 +45,7 @@ export default function RegisterPage() {
             Organization
             <input name="organization" required className="mt-1 w-full rounded border px-3 py-2" />
           </label>
-          <button type="submit" className="w-full rounded-lg bg-emerald-700 py-2 font-medium text-white">
+          <button type="submit" className="ggon-btn w-full">
             Request access
           </button>
         </form>

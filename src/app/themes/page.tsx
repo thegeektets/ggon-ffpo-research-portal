@@ -25,7 +25,7 @@ export default function ThemesPage() {
       <div className="grid gap-6 md:grid-cols-3">
         {themeSummaries.map((theme) => (
           <div key={theme.title} className="rounded-xl border bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-emerald-800">{theme.title}</h2>
+            <h2 className="ggon-label text-lg">{theme.title}</h2>
             <p className="mt-2 text-sm text-gray-600">{theme.body}</p>
             <p className="mt-4 text-xs text-gray-500">
               {researchLibrary.filter((r) => r.category.includes(theme.title.split(' ')[0])).length} resources

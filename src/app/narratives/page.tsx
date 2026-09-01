@@ -16,7 +16,7 @@ export default function NarrativesPage() {
           <Link
             key={item.id}
             href={`/library/${item.slug}`}
-            className="block rounded-xl border bg-white p-6 shadow-sm hover:border-emerald-400"
+            className="block border border-[#dcdcdc] bg-white p-6 transition hover:bg-[#efefef]"
           >
             <h2 className="text-lg font-semibold">{item.title.en}</h2>
             <p className="mt-2 text-sm text-gray-600">{item.summary.en}</p>

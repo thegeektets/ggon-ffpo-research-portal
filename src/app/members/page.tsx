@@ -10,8 +10,8 @@ export default function MembersPage() {
 
   if (!user) {
     return (
-      <p className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-        <Link href="/login" className="text-emerald-700 underline">
+      <p className="ggon-section-alt border border-[#dcdcdc] p-4">
+        <Link href="/login" className="ggon-link underline">
           Log in
         </Link>{' '}
         to view the member directory.
@@ -34,7 +34,7 @@ export default function MembersPage() {
               </div>
               <p className="text-sm text-gray-600">{member.organization}</p>
               <p className="mt-2 text-sm text-gray-500">{member.bio}</p>
-              <button type="button" className="mt-3 text-sm text-emerald-700 hover:underline">
+              <button type="button" className="ggon-link mt-3 text-sm hover:underline">
                 Message (demo)
               </button>
             </div>

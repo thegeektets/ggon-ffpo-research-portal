@@ -14,7 +14,7 @@ export default function ResearchDetailPage({ params }: { params: Promise<{ slug:
 
   return (
     <article className="max-w-3xl space-y-6">
-      <Link href="/library" className="text-sm text-emerald-700 hover:underline">
+      <Link href="/library" className="ggon-link text-sm hover:underline">
         ← Back to library
       </Link>
       <div className="flex flex-wrap gap-2 text-sm text-gray-500">
@@ -54,7 +54,7 @@ export default function ResearchDetailPage({ params }: { params: Promise<{ slug:
         </div>
       </dl>
       {item.url && (
-        <a href={item.url} target="_blank" rel="noreferrer" className="inline-block text-emerald-700 hover:underline">
+        <a href={item.url} target="_blank" rel="noreferrer" className="ggon-link inline-block hover:underline">
           View original resource →
         </a>
       )}

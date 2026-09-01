@@ -12,8 +12,8 @@ export default function SubmitPage() {
 
   if (!user) {
     return (
-      <p className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-        Please <Link href="/login" className="text-emerald-700 underline">log in</Link> to submit research.
+      <p className="ggon-section-alt border border-[#dcdcdc] p-4">
+        Please <Link href="/login" className="ggon-link underline">log in</Link> to submit research.
       </p>
     );
   }
@@ -22,7 +22,7 @@ export default function SubmitPage() {
     <div className="mx-auto max-w-xl space-y-6">
       <h1 className="text-2xl font-bold">{tr('submit')}</h1>
       {done ? (
-        <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">{tr('submissionSuccess')}</p>
+        <p className="ggon-section-alt border border-[#dcdcdc] p-4">{tr('submissionSuccess')}</p>
       ) : (
         <form
           className="space-y-4 rounded-xl border bg-white p-6 shadow-sm"
@@ -53,7 +53,7 @@ export default function SubmitPage() {
           <p className="text-xs text-gray-500">
             Metadata tags (geography, RWG priority, content type, etc.) would be collected in the full build.
           </p>
-          <button type="submit" className="rounded-lg bg-emerald-700 px-4 py-2 text-white">
+          <button type="submit" className="ggon-btn">
             Submit for review
           </button>
         </form>

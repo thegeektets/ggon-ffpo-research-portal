@@ -1,8 +1,21 @@
 import type { Metadata } from 'next';
+import { Open_Sans, Oswald } from 'next/font/google';
 import { AppProvider } from '@/context/AppContext';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
+import { MainShell } from '@/components/MainShell';
 import './globals.css';
+
+const openSans = Open_Sans({
+  subsets: ['latin'],
+  variable: '--font-open-sans',
+});
+
+const oswald = Oswald({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  variable: '--font-oswald',
+});
 
 export const metadata: Metadata = {
   title: 'GGON FFPO Research Portal',
@@ -12,11 +25,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="flex min-h-screen flex-col bg-stone-50 text-gray-900 antialiased">
+    <html lang="en" className={`${openSans.variable} ${oswald.variable}`}>
+      <body className="flex min-h-screen flex-col antialiased">
         <AppProvider>
           <Header />
-          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
+          <MainShell>{children}</MainShell>
           <Footer />
         </AppProvider>
       </body>

@@ -14,8 +14,8 @@ export default function AdminPage() {
 
   if (!user || !['owner', 'administrator', 'editor', 'reviewer'].includes(user.role)) {
     return (
-      <p className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-        Admin access required. <Link href="/login" className="text-emerald-700 underline">Log in</Link> as
+      <p className="ggon-section-alt border border-[#dcdcdc] p-4">
+        Admin access required. <Link href="/login" className="ggon-link underline">Log in</Link> as
         admin@ggon.demo
       </p>
     );
@@ -40,7 +40,7 @@ export default function AdminPage() {
           { label: 'Members', value: demoUsers.length },
         ].map((stat) => (
           <div key={stat.label} className="rounded-xl border bg-white p-4 shadow-sm">
-            <p className="text-2xl font-bold text-emerald-800">{stat.value}</p>
+            <p className="ggon-label text-2xl">{stat.value}</p>
             <p className="text-sm text-gray-600">{stat.label}</p>
           </div>
         ))}
@@ -67,7 +67,7 @@ export default function AdminPage() {
                         <button
                           type="button"
                           onClick={() => updateSubmission(sub.id, 'approved')}
-                          className="rounded bg-emerald-600 px-3 py-1 text-sm text-white"
+                          className="ggon-btn !py-1 !text-xs"
                         >
                           Approve
                         </button>
@@ -109,7 +109,7 @@ export default function AdminPage() {
                     <button
                       type="button"
                       onClick={() => approveRegistration(reg.id)}
-                      className="rounded bg-emerald-600 px-3 py-1 text-sm text-white"
+                      className="ggon-btn !py-1 !text-xs"
                     >
                       Approve
                     </button>
