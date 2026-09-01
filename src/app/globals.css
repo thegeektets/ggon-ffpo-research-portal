@@ -139,7 +139,13 @@ h3,
 }
 
 .ggon-page-banner h1,
-.ggon-page-banner p {
+.ggon-page-banner h2,
+.ggon-page-banner h3 {
+  color: #fff;
+}
+
+.ggon-page-banner p,
+.ggon-page-banner .ggon-label {
   color: inherit;
 }
 
@@ -161,6 +167,34 @@ h3,
   margin-left: -50vw;
   min-height: 360px;
   background: var(--ggon-dark);
+  color: #fff;
+}
+
+.ggon-article-hero h1,
+.ggon-article-hero h2,
+.ggon-article-hero h3 {
+  color: #fff;
+}
+
+.ggon-article-hero p {
+  color: rgb(255 255 255 / 0.85);
+}
+
+.ggon-article-hero .ggon-label {
+  color: #fff;
+}
+
+.ggon-article-hero a {
+  color: rgb(255 255 255 / 0.8);
+}
+
+.ggon-hero-dark {
+  color: #fff;
+}
+
+.ggon-hero-dark h1,
+.ggon-hero-dark h2,
+.ggon-hero-dark h3 {
   color: #fff;
 }
 

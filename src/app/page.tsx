@@ -46,7 +46,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="relative left-1/2 min-h-[520px] w-screen -translate-x-1/2 bg-[#1c1c1c] text-white">
+      <section className="ggon-hero-dark relative left-1/2 min-h-[520px] w-screen -translate-x-1/2 bg-[#1c1c1c]">
         <Image src="/hero.jpg" alt="" fill className="object-cover object-center opacity-60" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-[rgba(26,107,122,0.35)] via-[rgba(28,28,28,0.55)] to-[rgba(28,28,28,0.75)]" />
         <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 pb-16 pt-28 text-center">

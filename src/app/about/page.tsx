@@ -49,7 +49,7 @@ export default function AboutPage() {
   return (
     <div className="space-y-12">
       {/* Hero */}
-      <section className="relative min-h-[320px] overflow-hidden border border-[#dcdcdc] bg-[#1c1c1c] text-white">
+      <section className="ggon-hero-dark relative min-h-[320px] overflow-hidden border border-[#dcdcdc] bg-[#1c1c1c]">
         <Image
           src={img.satellite}
           alt=""
@@ -190,7 +190,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTAs */}
-      <section className="flex flex-col items-start justify-between gap-6 border border-[#dcdcdc] bg-gradient-to-r from-[#1a6b7a] to-[#2d6a4f] p-8 text-white md:flex-row md:items-center">
+      <section className="ggon-hero-dark flex flex-col items-start justify-between gap-6 border border-[#dcdcdc] bg-gradient-to-r from-[#1a6b7a] to-[#2d6a4f] p-8 md:flex-row md:items-center">
         <div>
           <h2 className="text-2xl font-bold text-white">Ready to explore?</h2>
           <p className="mt-2 max-w-xl text-sm text-white/85">
