@@ -29,7 +29,7 @@ export default function LoginPage() {
             return;
           }
           setUser(user);
-          router.push('/');
+          router.push('/dashboard');
         }}
       >
         {error && <p className="rounded bg-red-50 p-2 text-sm text-red-700">{error}</p>}

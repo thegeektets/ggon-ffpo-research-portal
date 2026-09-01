@@ -33,7 +33,17 @@ export default function SubmitPage() {
         </p>
       </div>
       {done ? (
-        <p className="border border-[#dcdcdc] bg-[#e8f4f6] p-6 text-sm">{tr('submissionSuccess')}</p>
+        <div className="space-y-4 border border-[#dcdcdc] bg-[#e8f4f6] p-6 text-sm">
+          <p>{tr('submissionSuccess')}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/dashboard" className="ggon-btn ggon-btn-teal !text-xs">
+              {tr('backToDashboard')}
+            </Link>
+            <Link href="/library" className="ggon-btn !text-xs">
+              {tr('browsePublicLibrary')}
+            </Link>
+          </div>
+        </div>
       ) : (
         <SubmissionForm
           submittedBy={user.email}

@@ -18,7 +18,6 @@ const nav = [
 export function Header() {
   const pathname = usePathname();
   const { user, setUser, locale, setLocale, tr } = useApp();
-  const canAdmin = user && ['owner', 'administrator', 'editor', 'reviewer'].includes(user.role);
   const onHome = pathname === '/';
 
   return (
@@ -63,27 +62,15 @@ export function Header() {
             </Link>
           ))}
           {user && (
-            <>
-              <Link
-                href="/members"
-                className={onHome ? 'text-white/80 hover:text-white' : 'text-[#7f7f7f] hover:text-[#242424]'}
-              >
-                {tr('members')}
-              </Link>
-              <Link
-                href="/submit"
-                className={onHome ? 'text-white/80 hover:text-white' : 'text-[#7f7f7f] hover:text-[#242424]'}
-              >
-                {tr('submit')}
-              </Link>
-            </>
-          )}
-          {canAdmin && (
             <Link
-              href="/admin"
-              className={onHome ? 'bg-white/20 px-2 py-1 text-white' : 'bg-[#e8f4f6] px-2 py-1 text-[#1a6b7a]'}
+              href="/dashboard"
+              className={
+                onHome
+                  ? 'bg-white/20 px-3 py-1.5 text-white hover:bg-white/30'
+                  : 'bg-[#1a6b7a] px-3 py-1.5 text-white hover:bg-[#145662]'
+              }
             >
-              {tr('admin')}
+              {tr('memberWorkspace')} →
             </Link>
           )}
         </nav>

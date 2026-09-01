@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { Open_Sans, Oswald } from 'next/font/google';
 import { AppProvider } from '@/context/AppContext';
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
-import { MainShell } from '@/components/MainShell';
+import { AppLayout } from '@/components/AppLayout';
 import './globals.css';
 
 const openSans = Open_Sans({
@@ -28,9 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${openSans.variable} ${oswald.variable}`}>
       <body className="flex min-h-screen flex-col antialiased">
         <AppProvider>
-          <Header />
-          <MainShell>{children}</MainShell>
-          <Footer />
+          <AppLayout>{children}</AppLayout>
         </AppProvider>
       </body>
     </html>

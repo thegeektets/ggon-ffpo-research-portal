@@ -153,6 +153,11 @@ h3,
   opacity: 0.9;
 }
 
+.ggon-workspace .ggon-page-banner {
+  margin: 0 0 2rem;
+  border-radius: 0.5rem;
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
