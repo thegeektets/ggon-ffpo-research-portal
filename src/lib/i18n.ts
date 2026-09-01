@@ -51,6 +51,9 @@ const en: Messages = {
   browseCategory: 'More in this category',
   relatedReading: 'Related reading',
   articleDetails: 'About this research',
+  viewAllArticles: 'View all articles',
+  showingFiltered: 'Showing',
+  clearSearchAndFilters: 'Clear search & filters',
 };
 
 const fr: Messages = {
@@ -80,6 +83,9 @@ const fr: Messages = {
   browseCategory: 'Plus dans cette catégorie',
   relatedReading: 'Lectures connexes',
   articleDetails: 'À propos de cette recherche',
+  viewAllArticles: 'Voir tous les articles',
+  showingFiltered: 'Affichage de',
+  clearSearchAndFilters: 'Effacer recherche et filtres',
 };
 
 const pt: Messages = {
@@ -108,6 +114,9 @@ const pt: Messages = {
   browseCategory: 'Mais nesta categoria',
   relatedReading: 'Leituras relacionadas',
   articleDetails: 'Sobre esta pesquisa',
+  viewAllArticles: 'Ver todos os artigos',
+  showingFiltered: 'Mostrando',
+  clearSearchAndFilters: 'Limpar pesquisa e filtros',
 };
 
 const es: Messages = {
@@ -136,6 +145,9 @@ const es: Messages = {
   browseCategory: 'Más en esta categoría',
   relatedReading: 'Lecturas relacionadas',
   articleDetails: 'Sobre esta investigación',
+  viewAllArticles: 'Ver todos los artículos',
+  showingFiltered: 'Mostrando',
+  clearSearchAndFilters: 'Borrar búsqueda y filtros',
 };
 
 export const messages: Record<Locale, Messages> = { en, fr, pt, es };

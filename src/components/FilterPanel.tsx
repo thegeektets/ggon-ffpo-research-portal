@@ -6,9 +6,10 @@ import type { SearchFilters } from '@/types';
 interface Props {
   filters: SearchFilters;
   onChange: (filters: SearchFilters) => void;
+  onClearAll: () => void;
 }
 
-export function FilterPanel({ filters, onChange }: Props) {
+export function FilterPanel({ filters, onChange, onClearAll }: Props) {
   const set = (key: keyof SearchFilters, value: string) => {
     onChange({ ...filters, [key]: value || undefined });
   };
@@ -46,10 +47,10 @@ export function FilterPanel({ filters, onChange }: Props) {
       ))}
       <button
         type="button"
-        onClick={() => onChange({ q: filters.q })}
-        className="ggon-btn ggon-btn-teal w-full !text-xs"
+        onClick={onClearAll}
+        className="ggon-btn w-full !text-xs"
       >
-        Clear filters
+        View all articles
       </button>
     </aside>
   );
