@@ -127,7 +127,7 @@ export default function ResearchDetailPage({ params }: { params: Promise<{ slug:
             )}
           </div>
 
-          <ArticleMetaSidebar item={item} locale={locale} labels={sidebarLabels} />
+          <ArticleMetaSidebar item={item} labels={sidebarLabels} />
         </div>
 
         <RelatedArticles items={related} locale={locale} title={tr('relatedReading')} />

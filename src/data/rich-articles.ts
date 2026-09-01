@@ -1,4 +1,4 @@
-import type { ArticleSection, Locale, ResearchAttachment, RichArticleContent } from '@/types';
+import type { Locale, RichArticleContent } from '@/types';
 import { additionalRichArticles } from '@/data/articles/additional';
 import { articleImages as img } from '@/data/article-images';
 

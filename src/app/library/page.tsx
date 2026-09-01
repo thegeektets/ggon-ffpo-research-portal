@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useMemo } from 'react';
 import { FilterPanel } from '@/components/FilterPanel';
 import { ResearchCard } from '@/components/ResearchCard';
 import { usePortalStore } from '@/lib/store';
@@ -15,20 +15,18 @@ function LibraryContent() {
   const router = useRouter();
   const { locale, tr } = useApp();
   const { researchLibrary } = usePortalStore();
-  const [filters, setFilters] = useState<SearchFilters>(() => filtersFromSearchParams(params));
-
-  useEffect(() => {
-    setFilters(filtersFromSearchParams(params));
-  }, [params]);
+  const filters = useMemo(() => filtersFromSearchParams(params), [params]);
 
   const updateFilters = (next: SearchFilters) => {
-    setFilters(next);
     router.replace(libraryPathForFilters(next), { scroll: false });
   };
 
   const clearAll = () => updateFilters({});
 
-  const results = useMemo(() => searchResearch(researchLibrary, filters, locale), [filters, locale]);
+  const results = useMemo(
+    () => searchResearch(researchLibrary, filters, locale),
+    [researchLibrary, filters, locale],
+  );
   const filtered = hasActiveFilters(filters);
 
   return (

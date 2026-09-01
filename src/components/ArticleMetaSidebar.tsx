@@ -1,16 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import type { Locale, ResearchItem } from '@/types';
+import type { ResearchItem } from '@/types';
 import { accentAt, contentTypeAccentIndex } from '@/lib/theme-colors';
 
 export function ArticleMetaSidebar({
   item,
-  locale,
   labels,
 }: {
   item: ResearchItem;
-  locale: Locale;
   labels: {
     authors: string;
     organization: string;
