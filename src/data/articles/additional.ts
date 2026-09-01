@@ -1,4 +1,5 @@
 import type { Locale, RichArticleContent } from '@/types';
+import { articleImages as img } from '@/data/article-images';
 
 const t = (en: string, fr: string, pt: string, es: string): Record<Locale, string> => ({ en, fr, pt, es });
 
@@ -6,7 +7,7 @@ const samplePdf = '/files/sample-report.pdf';
 
 export const additionalRichArticles: Record<string, RichArticleContent> = {
   'africa-public-finance-oil-gas': {
-    coverImage: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1400&q=80',
+    coverImage: img.africaCover,
     body: [
       {
         type: 'paragraph',
@@ -32,7 +33,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80',
+        src: img.africaMap,
         alt: t('Map of Africa highlighting energy finance corridors', 'Carte de l\'Afrique mettant en évidence les corridors de financement énergétique', 'Mapa da África destacando corredores de financiamento energético', 'Mapa de África destacando corredores de financiación energética'),
         caption: t(
           'Figure 1: Public finance flows by region and project type (2018–2024).',
@@ -73,7 +74,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
   },
 
   'nigeria-gas-flaring-litigation': {
-    coverImage: 'https://images.unsplash.com/photo-1565638290778-0c83a2fbb4f8?w=1400&q=80',
+    coverImage: img.nigeriaCover,
     body: [
       {
         type: 'paragraph',
@@ -100,7 +101,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9dcf?w=1200&q=80',
+        src: img.nigeriaFlare,
         alt: t('Gas flaring stack at night in an industrial zone', 'Torchère de gaz la nuit dans une zone industrielle', 'Tocha de queima de gás à noite em zona industrial', 'Antorcha de gas por la noche en zona industrial'),
         caption: t(
           'Communities within 5 km of flaring sites report elevated respiratory illness and crop damage.',
@@ -145,7 +146,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
   },
 
   'demand-side-transport-decarbonisation': {
-    coverImage: 'https://images.unsplash.com/photo-1593941707874-ef25b8b4a5b6?w=1400&q=80',
+    coverImage: img.transportCover,
     body: [
       {
         type: 'paragraph',
@@ -171,7 +172,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80',
+        src: img.transportEv,
         alt: t('Electric vehicle charging at a public station', 'Recharge de véhicule électrique en station publique', 'Carregamento de veículo elétrico em estação pública', 'Carga de vehículo eléctrico en estación pública'),
         caption: t(
           'Countries with combined EV incentives and transit investment show the fastest transport oil demand decline.',
@@ -212,7 +213,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
   },
 
   'narrative-fossil-free-future': {
-    coverImage: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1400&q=80',
+    coverImage: img.narrativeCover,
     body: [
       {
         type: 'paragraph',
@@ -250,7 +251,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&q=80',
+        src: img.narrativeRally,
         alt: t('Community gathering at a climate rally', 'Rassemblement communautaire lors d\'un rassemblement climatique', 'Reunião comunitária em manifestação climática', 'Reunión comunitaria en manifestación climática'),
         caption: t(
           'Audience segmentation guide included: policymakers, media, youth, and fence-sitters each need tailored framing.',
@@ -281,7 +282,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
   },
 
   'brazil-pre-salt-noc-analysis': {
-    coverImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1400&q=80',
+    coverImage: img.brazilCover,
     body: [
       {
         type: 'paragraph',
@@ -308,7 +309,7 @@ export const additionalRichArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?w=1200&q=80',
+        src: img.brazilPlatform,
         alt: t('Offshore oil platform in open water', 'Plateforme pétrolière offshore en pleine mer', 'Plataforma de petróleo offshore em mar aberto', 'Plataforma petrolera offshore en mar abierto'),
         caption: t(
           'Pre-salt fields require deepwater infrastructure with decades-long payback periods.',

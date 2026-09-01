@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { articleImages as img } from '@/data/article-images';
 import { priorityThemes } from '@/data/priority-themes';
 import { researchLibrary } from '@/data/research';
 import { useApp } from '@/context/AppContext';
@@ -50,7 +51,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="relative min-h-[320px] overflow-hidden border border-[#dcdcdc] bg-[#1c1c1c] text-white">
         <Image
-          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1400&q=80"
+          src={img.satellite}
           alt=""
           fill
           className="object-cover opacity-30"

@@ -1,5 +1,6 @@
 import type { ArticleSection, Locale, ResearchAttachment, RichArticleContent } from '@/types';
 import { additionalRichArticles } from '@/data/articles/additional';
+import { articleImages as img } from '@/data/article-images';
 
 const t = (en: string, fr: string, pt: string, es: string): Record<Locale, string> => ({ en, fr, pt, es });
 
@@ -7,7 +8,7 @@ export type { RichArticleContent };
 
 export const richArticles: Record<string, RichArticleContent> = {
   'just-transition-workers-north-sea': {
-    coverImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1400&q=80',
+    coverImage: img.northSeaCover,
     body: [
       {
         type: 'paragraph',
@@ -34,7 +35,7 @@ export const richArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&q=80',
+        src: img.northSeaWorkers,
         alt: t(
           'Offshore workers in safety gear on a platform deck',
           'Travailleurs offshore en équipement de sécurité sur une plateforme',
@@ -131,7 +132,7 @@ export const richArticles: Record<string, RichArticleContent> = {
     ],
   },
   'ecuador-amazon-oil-impacts': {
-    coverImage: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1400&q=80',
+    coverImage: img.ecuadorCover,
     body: [
       {
         type: 'paragraph',
@@ -158,7 +159,7 @@ export const richArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80',
+        src: img.ecuadorForest,
         alt: t(
           'Dense Amazon rainforest canopy along a river',
           'Canopée dense de la forêt amazonienne le long d\'une rivière',
@@ -200,7 +201,7 @@ export const richArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&q=80',
+        src: img.ecuadorCommunity,
         alt: t(
           'Community members gathering water samples at a riverbank',
           'Membres de la communauté prélevant des échantillons d\'eau sur une rive',
@@ -238,14 +239,14 @@ export const richArticles: Record<string, RichArticleContent> = {
         id: 'ec-3',
         label: t('Satellite imagery comparison (PNG)', 'Comparaison d\'imagerie satellite (PNG)', 'Comparação de imagens de satélite (PNG)', 'Comparación de imágenes satelitales (PNG)'),
         fileName: 'ecuador-deforestation-overlay.png',
-        url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80',
+        url: img.satellite,
         fileType: 'image',
         sizeLabel: '1.8 MB',
       },
     ],
   },
   'ccs-greenwashing-assessment': {
-    coverImage: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac71?w=1400&q=80',
+    coverImage: img.ccsCover,
     body: [
       {
         type: 'paragraph',
@@ -272,7 +273,7 @@ export const richArticles: Record<string, RichArticleContent> = {
       },
       {
         type: 'image',
-        src: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9dcf?w=1200&q=80',
+        src: img.ccsRefinery,
         alt: t(
           'Industrial refinery with smoke stacks against a cloudy sky',
           'Raffinerie industrielle avec cheminées sous un ciel nuageux',
@@ -338,7 +339,7 @@ export const richArticles: Record<string, RichArticleContent> = {
         id: 'ccs-3',
         label: t('Infographic: CCS reality check (PNG)', 'Infographie : bilan CCS (PNG)', 'Infográfico: balanço do CCS (PNG)', 'Infografía: balance del CCS (PNG)'),
         fileName: 'ccs-infographic.png',
-        url: 'https://images.unsplash.com/photo-1569163139394-de4798aa62b0?w=1200&q=80',
+        url: img.ccsChart,
         fileType: 'image',
         sizeLabel: '890 KB',
       },

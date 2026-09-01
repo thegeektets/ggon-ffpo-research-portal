@@ -1,0 +1,22 @@
+/** Local article images — avoids broken or blocked external Unsplash URLs in production. */
+export const articleImages = {
+  northSeaCover: '/images/articles/north-sea-cover.jpg',
+  northSeaWorkers: '/images/articles/north-sea-workers.jpg',
+  ecuadorCover: '/images/articles/ecuador-cover.jpg',
+  ecuadorForest: '/images/articles/ecuador-forest.jpg',
+  ecuadorCommunity: '/images/articles/ecuador-community.jpg',
+  ccsCover: '/images/articles/ccs-cover.jpg',
+  ccsRefinery: '/images/articles/ccs-refinery.jpg',
+  ccsChart: '/images/articles/ccs-chart.jpg',
+  africaCover: '/images/articles/africa-cover.jpg',
+  africaMap: '/images/articles/africa-map.jpg',
+  nigeriaCover: '/images/articles/nigeria-cover.jpg',
+  nigeriaFlare: '/images/articles/nigeria-flare.jpg',
+  transportCover: '/images/articles/transport-cover.jpg',
+  transportEv: '/images/articles/transport-ev.jpg',
+  narrativeCover: '/images/articles/narrative-cover.jpg',
+  narrativeRally: '/images/articles/narrative-rally.jpg',
+  brazilCover: '/images/articles/brazil-cover.jpg',
+  brazilPlatform: '/images/articles/brazil-platform.jpg',
+  satellite: '/images/articles/satellite.jpg',
+} as const;
