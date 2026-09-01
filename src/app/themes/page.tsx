@@ -1,9 +1,13 @@
+'use client';
+
 import Link from 'next/link';
 import { priorityThemes, resourceCountForTheme } from '@/data/priority-themes';
-import { researchLibrary } from '@/data/research';
+import { usePortalStore } from '@/lib/store';
 import { accentAt } from '@/lib/theme-colors';
 
 export default function ThemesPage() {
+  const { researchLibrary } = usePortalStore();
+
   return (
     <div className="space-y-8">
       <div className="ggon-page-banner">

@@ -3,11 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Locale, ResearchItem } from '@/types';
-import { getRichArticle } from '@/data/rich-articles';
+import { usePortalStore } from '@/lib/store';
 import { accentAt, contentTypeAccentIndex } from '@/lib/theme-colors';
 
 export function ResearchCard({ item, locale }: { item: ResearchItem; locale: Locale }) {
   const accent = accentAt(contentTypeAccentIndex(item.contentType));
+  const { getRichArticle } = usePortalStore();
   const coverImage = getRichArticle(item.slug)?.coverImage;
 
   return (
@@ -17,7 +18,7 @@ export function ResearchCard({ item, locale }: { item: ResearchItem; locale: Loc
     >
       {coverImage && (
         <Link href={`/library/${item.slug}`} className="relative block h-40 w-full">
-          <Image src={coverImage} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 400px" />
+          <Image src={coverImage} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 400px" unoptimized={coverImage.startsWith('data:')} />
         </Link>
       )}
       <div className="p-5">

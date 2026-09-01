@@ -1,8 +1,11 @@
-import { researchLibrary } from '@/data/research';
+'use client';
+
 import Link from 'next/link';
+import { usePortalStore } from '@/lib/store';
 import { accentAt } from '@/lib/theme-colors';
 
 export default function NarrativesPage() {
+  const { researchLibrary } = usePortalStore();
   const narratives = researchLibrary.filter((r) => r.category.includes('Narratives'));
 
   return (

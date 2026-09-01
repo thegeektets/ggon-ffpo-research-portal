@@ -351,3 +351,6 @@ export const richArticles: Record<string, RichArticleContent> = {
 export function getRichArticle(slug: string): RichArticleContent | undefined {
   return richArticles[slug];
 }
+
+/** @deprecated Use usePortalStore().getRichArticle for merged seed + published content */
+export const seedRichArticleMap = richArticles;

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Locale, ResearchItem } from '@/types';
-import { getRichArticle } from '@/data/rich-articles';
+import { usePortalStore } from '@/lib/store';
 import { accentAt, contentTypeAccentIndex } from '@/lib/theme-colors';
 
 export function RelatedArticles({
@@ -15,6 +15,7 @@ export function RelatedArticles({
   locale: Locale;
   title: string;
 }) {
+  const { getRichArticle } = usePortalStore();
   if (items.length === 0) return null;
 
   return (

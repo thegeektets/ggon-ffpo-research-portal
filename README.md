@@ -10,7 +10,7 @@ Working prototype for the **Global Gas and Oil Network (GGON) Fossil Fuel Phase-
 | Rich metadata filters | Geography, industry side, petroleum chain, RWG priorities, WG, content type, year |
 | Members-only access | Registration + login with admin approval queue |
 | Four user roles | Owner, Administrator, Editor, Reviewer, Member |
-| Submission workflow | `/submit` → admin review queue → approve/reject |
+| Submission workflow | `/submit` → metadata + files → reviewer approve → editor publish |
 | Admin dashboard | `/admin` — stats, submissions, registrations, role management |
 | Multilingual UI | EN / FR / PT / ES language switcher |
 | Priority themes & narratives | `/themes`, `/narratives` |
@@ -37,6 +37,13 @@ Password for all: **`demo123`**
 | `editor@ggon.demo` | Editor |
 | `reviewer@ggon.demo` | Reviewer |
 | `member@ggon.demo` | Member |
+
+### Submission workflow (demo)
+
+1. **Member** (`member@ggon.demo`) — `/submit` with metadata, cover image, and PDF/files
+2. **Reviewer** (`reviewer@ggon.demo`) — `/admin` → **Approve for publishing**
+3. **Editor** (`editor@ggon.demo`) — `/admin` → add body text → **Publish to library**
+4. Published article appears in `/library` with full layout and downloads
 
 ## Tech stack (per proposal)
 

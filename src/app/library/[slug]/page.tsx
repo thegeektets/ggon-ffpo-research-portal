@@ -8,14 +8,14 @@ import { ArticleAttachments } from '@/components/ArticleAttachments';
 import { ArticleBody } from '@/components/ArticleBody';
 import { ArticleMetaSidebar } from '@/components/ArticleMetaSidebar';
 import { RelatedArticles } from '@/components/RelatedArticles';
-import { researchLibrary } from '@/data/research';
-import { getRichArticle } from '@/data/rich-articles';
+import { usePortalStore } from '@/lib/store';
 import { useApp } from '@/context/AppContext';
 import { accentAt, contentTypeAccentIndex } from '@/lib/theme-colors';
 
 export default function ResearchDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
   const { locale, tr } = useApp();
+  const { researchLibrary, getRichArticle } = usePortalStore();
   const item = researchLibrary.find((r) => r.slug === slug);
   if (!item) notFound();
 
@@ -50,9 +50,10 @@ export default function ResearchDetailPage({ params }: { params: Promise<{ slug:
               alt=""
               fill
               className="object-cover opacity-50"
-              sizes="100vw"
-              priority
-            />
+            sizes="100vw"
+            priority
+            unoptimized={richContent.coverImage.startsWith('data:')}
+          />
             <div className="ggon-article-hero-overlay absolute inset-0" />
           </>
         ) : (

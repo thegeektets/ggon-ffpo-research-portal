@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { researchLibrary } from '@/data/research';
+import { usePortalStore } from '@/lib/store';
 import { useApp } from '@/context/AppContext';
 import { wordCloudTags } from '@/lib/search';
 import { accentAt } from '@/lib/theme-colors';
@@ -41,6 +41,7 @@ const themes = [
 export default function HomePage() {
   const { tr } = useApp();
   const router = useRouter();
+  const { researchLibrary } = usePortalStore();
   const [q, setQ] = useState('');
   const cloud = wordCloudTags(researchLibrary);
 

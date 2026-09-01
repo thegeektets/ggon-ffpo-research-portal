@@ -85,15 +85,44 @@ export interface ResearchItem {
   tags: string[];
 }
 
+export interface SubmissionFile {
+  id: string;
+  label: string;
+  fileName: string;
+  url: string;
+  fileType: AttachmentFileType;
+  sizeLabel: string;
+}
+
+export type SubmissionStatus = 'pending' | 'approved' | 'rejected' | 'changes_requested' | 'published';
+
 export interface Submission {
   id: string;
   title: string;
   summary: string;
-  url: string;
+  url?: string;
   submittedBy: string;
   submittedAt: string;
-  status: 'pending' | 'approved' | 'rejected' | 'changes_requested';
+  status: SubmissionStatus;
   reviewerNote?: string;
+  editorNote?: string;
+  editorBody?: string;
+  publishedSlug?: string;
+  authors: string[];
+  organization: string;
+  year: number;
+  geographicScope: ResearchItem['geographicScope'];
+  country?: string;
+  industrySide: ResearchItem['industrySide'];
+  petroleumChain: ResearchItem['petroleumChain'];
+  category: ResearchItem['category'];
+  contentType: ResearchItem['contentType'];
+  rwgPriorities: string[];
+  workingGroups: string[];
+  subjects: string[];
+  tags: string[];
+  coverImageUrl?: string;
+  files: SubmissionFile[];
 }
 
 export interface RegistrationRequest {

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { FilterPanel } from '@/components/FilterPanel';
 import { ResearchCard } from '@/components/ResearchCard';
-import { researchLibrary } from '@/data/research';
+import { usePortalStore } from '@/lib/store';
 import { useApp } from '@/context/AppContext';
 import { filtersFromSearchParams, hasActiveFilters, libraryPathForFilters } from '@/lib/library-url';
 import { searchResearch } from '@/lib/search';
@@ -14,6 +14,7 @@ function LibraryContent() {
   const params = useSearchParams();
   const router = useRouter();
   const { locale, tr } = useApp();
+  const { researchLibrary } = usePortalStore();
   const [filters, setFilters] = useState<SearchFilters>(() => filtersFromSearchParams(params));
 
   useEffect(() => {

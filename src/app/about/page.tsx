@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { articleImages as img } from '@/data/article-images';
 import { priorityThemes } from '@/data/priority-themes';
-import { researchLibrary } from '@/data/research';
+import { usePortalStore } from '@/lib/store';
 import { useApp } from '@/context/AppContext';
 import { locales } from '@/lib/i18n';
 import { accentAt } from '@/lib/theme-colors';
@@ -44,6 +44,7 @@ const techStack = ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'];
 
 export default function AboutPage() {
   const { tr } = useApp();
+  const { researchLibrary } = usePortalStore();
   const publishedCount = researchLibrary.filter((r) => r.status === 'published').length;
 
   return (
