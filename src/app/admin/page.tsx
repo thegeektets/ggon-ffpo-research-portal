@@ -67,7 +67,7 @@ export default function AdminPage() {
                         <button
                           type="button"
                           onClick={() => updateSubmission(sub.id, 'approved')}
-                          className="ggon-btn !py-1 !text-xs"
+                          className="ggon-btn ggon-btn-teal !py-1 !text-xs"
                         >
                           Approve
                         </button>
@@ -109,7 +109,7 @@ export default function AdminPage() {
                     <button
                       type="button"
                       onClick={() => approveRegistration(reg.id)}
-                      className="ggon-btn !py-1 !text-xs"
+                      className="ggon-btn ggon-btn-teal !py-1 !text-xs"
                     >
                       Approve
                     </button>

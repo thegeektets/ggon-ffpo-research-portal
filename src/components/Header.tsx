@@ -53,10 +53,10 @@ export function Header() {
                 pathname === item.href
                   ? onHome
                     ? 'text-white'
-                    : 'text-[#242424] underline underline-offset-4'
+                    : 'text-[#1a6b7a] underline underline-offset-4'
                   : onHome
                     ? 'text-white/80 hover:text-white'
-                    : 'text-[#7f7f7f] hover:text-[#242424]'
+                    : 'text-[#7f7f7f] hover:text-[#1a6b7a]'
               }
             >
               {tr(item.key)}
@@ -81,7 +81,7 @@ export function Header() {
           {canAdmin && (
             <Link
               href="/admin"
-              className={onHome ? 'bg-white/20 px-2 py-1 text-white' : 'bg-[#efefef] px-2 py-1 text-[#242424]'}
+              className={onHome ? 'bg-white/20 px-2 py-1 text-white' : 'bg-[#e8f4f6] px-2 py-1 text-[#1a6b7a]'}
             >
               {tr('admin')}
             </Link>
@@ -111,7 +111,7 @@ export function Header() {
               <Link href="/login" className={`ggon-link text-xs uppercase ${onHome ? '!text-white' : ''}`}>
                 {tr('login')}
               </Link>
-              <Link href="/register" className="ggon-btn !py-1 !text-xs">
+              <Link href="/register" className="ggon-btn ggon-btn-teal !py-1 !text-xs">
                 {tr('register')}
               </Link>
             </>
@@ -125,10 +125,10 @@ export function Header() {
 export function RoleBadge({ role }: { role: UserRole }) {
   const colors: Record<UserRole, string> = {
     owner: 'bg-[#242424] text-white',
-    administrator: 'bg-[#dcdcdc] text-[#222]',
-    editor: 'bg-[#efefef] text-[#242424]',
-    reviewer: 'bg-[#efefef] text-[#242424]',
-    member: 'bg-white text-[#7f7f7f] ring-1 ring-[#dcdcdc]',
+    administrator: 'bg-[#1a6b7a] text-white',
+    editor: 'bg-[#e8f4f6] text-[#1a6b7a]',
+    reviewer: 'bg-[#fef3e8] text-[#a34b12]',
+    member: 'bg-[#e8f2ec] text-[#2d6a4f] ring-1 ring-[#2d6a4f]/30',
   };
   return (
     <span className={`px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${colors[role]}`}>{role}</span>

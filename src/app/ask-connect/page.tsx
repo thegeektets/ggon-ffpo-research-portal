@@ -40,7 +40,7 @@ export default function AskConnectPage() {
               <option>Other</option>
             </select>
           </label>
-          <button type="submit" className="ggon-btn">
+          <button type="submit" className="ggon-btn ggon-btn-teal">
             Send
           </button>
         </form>

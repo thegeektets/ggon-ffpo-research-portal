@@ -3,12 +3,16 @@
 :root {
   --ggon-heading: #242424;
   --ggon-body: #7f7f7f;
-  --ggon-link: #333333;
+  --ggon-link: #1a6b7a;
   --ggon-section: #efefef;
   --ggon-button: #dcdcdc;
   --ggon-button-text: #222222;
   --ggon-hero-overlay: rgba(28, 28, 28, 0.82);
   --ggon-dark: #1c1c1c;
+  --ggon-accent: #1a6b7a;
+  --ggon-accent-warm: #c45c26;
+  --ggon-accent-light: #e8f4f6;
+  --ggon-accent-warm-light: #fef3e8;
 }
 
 body {
@@ -34,6 +38,21 @@ h3,
   color: var(--ggon-heading);
 }
 
+.ggon-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ggon-section-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 1.25rem;
+  background: var(--ggon-accent);
+  flex-shrink: 0;
+}
+
 .ggon-btn {
   background: var(--ggon-button);
   color: var(--ggon-button-text);
@@ -43,11 +62,29 @@ h3,
   letter-spacing: 0.08em;
   padding: 0.75rem 1.25rem;
   border: none;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s;
 }
 
 .ggon-btn:hover {
   background: #c8c8c8;
+}
+
+.ggon-btn-accent {
+  background: var(--ggon-accent-warm);
+  color: #fff;
+}
+
+.ggon-btn-accent:hover {
+  background: #a34b12;
+}
+
+.ggon-btn-teal {
+  background: var(--ggon-accent);
+  color: #fff;
+}
+
+.ggon-btn-teal:hover {
+  background: #145662;
 }
 
 .ggon-btn-primary {
@@ -63,6 +100,11 @@ h3,
   width: 100%;
 }
 
+.ggon-input:focus {
+  outline: 2px solid var(--ggon-accent-light);
+  outline-offset: 0;
+}
+
 .ggon-input::placeholder {
   color: #aaa;
 }
@@ -71,12 +113,38 @@ h3,
   background: var(--ggon-section);
 }
 
+.ggon-section-teal {
+  background: linear-gradient(135deg, #e8f4f6 0%, #f5fafb 50%, #fef3e8 100%);
+  border-top: 3px solid var(--ggon-accent);
+}
+
 .ggon-link {
   color: var(--ggon-link);
 }
 
 .ggon-link:hover {
+  color: #145662;
   text-decoration: underline;
+}
+
+.ggon-card-accent {
+  border-left: 4px solid var(--ggon-accent);
+}
+
+.ggon-page-banner {
+  margin: -2rem -1rem 2rem;
+  padding: 2rem 1rem;
+  background: linear-gradient(120deg, #1a6b7a 0%, #2d6a4f 100%);
+  color: #fff;
+}
+
+.ggon-page-banner h1,
+.ggon-page-banner p {
+  color: inherit;
+}
+
+.ggon-page-banner p {
+  opacity: 0.9;
 }
 
 .line-clamp-3 {

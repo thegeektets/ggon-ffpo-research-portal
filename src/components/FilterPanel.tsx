@@ -25,7 +25,7 @@ export function FilterPanel({ filters, onChange }: Props) {
   ];
 
   return (
-    <aside className="space-y-4 border border-[#dcdcdc] bg-[#efefef] p-4">
+    <aside className="space-y-4 border border-[#dcdcdc] border-t-4 border-t-[#1a6b7a] bg-[#f5fafb] p-4">
       <h2 className="ggon-label text-sm">Filters</h2>
       {fields.map((field) => (
         <label key={field.key} className="block text-sm">
@@ -47,7 +47,7 @@ export function FilterPanel({ filters, onChange }: Props) {
       <button
         type="button"
         onClick={() => onChange({ q: filters.q })}
-        className="ggon-btn w-full !text-xs"
+        className="ggon-btn ggon-btn-teal w-full !text-xs"
       >
         Clear filters
       </button>

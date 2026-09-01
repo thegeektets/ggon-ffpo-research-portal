@@ -53,7 +53,7 @@ export default function SubmitPage() {
           <p className="text-xs text-gray-500">
             Metadata tags (geography, RWG priority, content type, etc.) would be collected in the full build.
           </p>
-          <button type="submit" className="ggon-btn">
+          <button type="submit" className="ggon-btn ggon-btn-teal">
             Submit for review
           </button>
         </form>

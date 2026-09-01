@@ -53,7 +53,7 @@ export default function LoginPage() {
             required
           />
         </label>
-        <button type="submit" className="ggon-btn w-full">
+        <button type="submit" className="ggon-btn ggon-btn-teal w-full">
           {tr('login')}
         </button>
       </form>

@@ -2,12 +2,21 @@
 
 import Link from 'next/link';
 import type { Locale, ResearchItem } from '@/types';
+import { accentAt, contentTypeAccentIndex } from '@/lib/theme-colors';
 
 export function ResearchCard({ item, locale }: { item: ResearchItem; locale: Locale }) {
+  const accent = accentAt(contentTypeAccentIndex(item.contentType));
+
   return (
-    <article className="border border-[#dcdcdc] bg-white p-5 transition hover:bg-[#fafafa]">
+    <article
+      className="border border-[#dcdcdc] bg-white p-5 transition hover:shadow-md"
+      style={{ borderLeftWidth: 4, borderLeftColor: accent.border }}
+    >
       <div className="mb-2 flex flex-wrap gap-2 text-xs">
-        <span className="bg-[#efefef] px-2 py-0.5 font-bold uppercase tracking-wide text-[#242424]">
+        <span
+          className="px-2 py-0.5 font-bold uppercase tracking-wide"
+          style={{ backgroundColor: accent.bg, color: accent.text }}
+        >
           {item.contentType}
         </span>
         <span>{item.year}</span>
@@ -26,11 +35,18 @@ export function ResearchCard({ item, locale }: { item: ResearchItem; locale: Loc
         {item.authors.join(', ')} · {item.organization}
       </p>
       <div className="mt-3 flex flex-wrap gap-1">
-        {item.tags.slice(0, 4).map((tag) => (
-          <span key={tag} className="bg-[#efefef] px-2 py-0.5 text-xs text-[#7f7f7f]">
-            {tag}
-          </span>
-        ))}
+        {item.tags.slice(0, 4).map((tag, i) => {
+          const tagAccent = accentAt(i + 1);
+          return (
+            <span
+              key={tag}
+              className="px-2 py-0.5 text-xs"
+              style={{ backgroundColor: tagAccent.bg, color: tagAccent.text }}
+            >
+              {tag}
+            </span>
+          );
+        })}
       </div>
     </article>
   );

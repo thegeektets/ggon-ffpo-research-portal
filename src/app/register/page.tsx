@@ -45,7 +45,7 @@ export default function RegisterPage() {
             Organization
             <input name="organization" required className="mt-1 w-full rounded border px-3 py-2" />
           </label>
-          <button type="submit" className="ggon-btn w-full">
+          <button type="submit" className="ggon-btn ggon-btn-teal w-full">
             Request access
           </button>
         </form>
