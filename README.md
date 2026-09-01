@@ -44,6 +44,31 @@ Password for all: **`demo123`**
 - **i18n:** Client-side locale switching (EN/FR/PT/ES)
 - **Data:** Sample in-memory research library (production would use PostgreSQL + API)
 
+## Deployment (CI/CD)
+
+### Live site (Vercel — free)
+
+**Recommended:** connect Vercel directly to GitHub (no secrets required). This fixes `DEPLOYMENT_NOT_FOUND` when the deploy workflow was never run.
+
+1. Go to [vercel.com/new](https://vercel.com/new) → sign in with GitHub
+2. **Import** `thegeektets/ggon-ffpo-research-portal`
+3. Framework: **Next.js** (auto-detected) → **Deploy**
+4. Every push to `main` redeploys automatically via the Vercel GitHub app
+
+Your live URL will be something like `https://ggon-ffpo-research-portal.vercel.app` (shown in the Vercel dashboard after a successful build).
+
+If you see `404 DEPLOYMENT_NOT_FOUND`, the project has no successful deployment yet — open the Vercel project → **Deployments** → check the latest build log, or delete the project and re-import from GitHub.
+
+### CI (GitHub Actions)
+
+`CI` workflow runs on every push/PR to `main`: `npm ci` → lint → build.
+
+> **Note:** If pushing workflow files fails with `workflow scope` error, run once:
+> `gh auth refresh -h github.com -s workflow`
+> then `git push origin main`
+
+Optional: add Vercel CLI deploy via Actions later using `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` secrets — not required when using Vercel's GitHub integration above.
+
 ## Production roadmap
 
 - PostgreSQL + Prisma for research metadata and full-text search
