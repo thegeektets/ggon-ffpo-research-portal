@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { FilterPanel } from '@/components/FilterPanel';
 import { ResearchCard } from '@/components/ResearchCard';
 import { researchLibrary } from '@/data/research';
@@ -16,6 +16,13 @@ function LibraryContent() {
     q: params.get('q') ?? undefined,
     category: params.get('category') ?? undefined,
   });
+
+  useEffect(() => {
+    setFilters({
+      q: params.get('q') ?? undefined,
+      category: params.get('category') ?? undefined,
+    });
+  }, [params]);
 
   const results = useMemo(() => searchResearch(researchLibrary, filters, locale), [filters, locale]);
 

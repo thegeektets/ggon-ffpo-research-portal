@@ -1,0 +1,7 @@
+company,announced_capacity_mtpa,operational_capacity_mtpa,status,primary_use
+Shell,10.0,0.3,Pilot,Enhanced oil recovery
+BP,8.0,0.1,Announced,Storage
+TotalEnergies,6.5,0.2,Under construction,Storage
+ExxonMobil,5.0,0.0,Announced,Enhanced oil recovery
+Chevron,4.0,0.1,Operational,Enhanced oil recovery
+Eni,3.5,0.0,Announced,Storage

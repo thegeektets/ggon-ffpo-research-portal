@@ -1,17 +1,26 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Locale, ResearchItem } from '@/types';
+import { getRichArticle } from '@/data/rich-articles';
 import { accentAt, contentTypeAccentIndex } from '@/lib/theme-colors';
 
 export function ResearchCard({ item, locale }: { item: ResearchItem; locale: Locale }) {
   const accent = accentAt(contentTypeAccentIndex(item.contentType));
+  const coverImage = getRichArticle(item.slug)?.coverImage;
 
   return (
     <article
-      className="border border-[#dcdcdc] bg-white p-5 transition hover:shadow-md"
+      className="overflow-hidden border border-[#dcdcdc] bg-white transition hover:shadow-md"
       style={{ borderLeftWidth: 4, borderLeftColor: accent.border }}
     >
+      {coverImage && (
+        <Link href={`/library/${item.slug}`} className="relative block h-40 w-full">
+          <Image src={coverImage} alt="" fill className="object-cover" sizes="(max-width: 768px) 100vw, 400px" />
+        </Link>
+      )}
+      <div className="p-5">
       <div className="mb-2 flex flex-wrap gap-2 text-xs">
         <span
           className="px-2 py-0.5 font-bold uppercase tracking-wide"
@@ -47,6 +56,7 @@ export function ResearchCard({ item, locale }: { item: ResearchItem; locale: Loc
             </span>
           );
         })}
+      </div>
       </div>
     </article>
   );

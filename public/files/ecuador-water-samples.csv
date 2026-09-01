@@ -1,0 +1,7 @@
+sample_id,location,river,season,tph_mg_l,mercury_ug_l,lead_ug_l,exceeds_limit
+EC-001,Block 16 upstream,Napo,Low water,0.8,0.12,2.1,false
+EC-002,Block 16 downstream,Napo,Low water,4.2,1.8,12.4,true
+EC-003,Block 16 downstream,Napo,High water,2.1,0.9,6.2,true
+EC-004,Pipeline corridor A,Tiputini,Low water,6.1,2.4,18.7,true
+EC-005,Pipeline corridor A,Tiputini,High water,3.4,1.1,9.3,true
+EC-006,Control site (protected),Cuyabeno,Low water,0.3,0.05,0.8,false

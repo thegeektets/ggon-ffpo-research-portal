@@ -35,6 +35,22 @@ const en: Messages = {
   demoCredentials: 'Demo accounts (password: demo123)',
   pendingApproval: 'Your registration is pending admin approval.',
   submissionSuccess: 'Submission received — it will appear after reviewer approval.',
+  backToLibrary: 'Back to library',
+  authors: 'Authors',
+  organization: 'Organization',
+  geography: 'Geography',
+  industryChain: 'Industry / chain',
+  rwgPriorities: 'RWG priorities',
+  tags: 'Tags',
+  downloads: 'Downloads & attachments',
+  viewOriginal: 'View original resource',
+  download: 'Download',
+  summary: 'Summary',
+  workingGroups: 'Working groups',
+  subjects: 'Subjects',
+  browseCategory: 'More in this category',
+  relatedReading: 'Related reading',
+  articleDetails: 'About this research',
 };
 
 const fr: Messages = {
@@ -54,6 +70,16 @@ const fr: Messages = {
   register: "S'inscrire",
   logout: 'Déconnexion',
   searchPlaceholder: 'Rechercher… utilisez ET / OU pour les requêtes booléennes',
+  backToLibrary: 'Retour à la bibliothèque',
+  downloads: 'Téléchargements et pièces jointes',
+  viewOriginal: 'Voir la ressource originale',
+  download: 'Télécharger',
+  summary: 'Résumé',
+  workingGroups: 'Groupes de travail',
+  subjects: 'Sujets',
+  browseCategory: 'Plus dans cette catégorie',
+  relatedReading: 'Lectures connexes',
+  articleDetails: 'À propos de cette recherche',
 };
 
 const pt: Messages = {
@@ -72,6 +98,16 @@ const pt: Messages = {
   login: 'Entrar',
   register: 'Registrar',
   logout: 'Sair',
+  backToLibrary: 'Voltar à biblioteca',
+  downloads: 'Downloads e anexos',
+  viewOriginal: 'Ver recurso original',
+  download: 'Baixar',
+  summary: 'Resumo',
+  workingGroups: 'Grupos de trabalho',
+  subjects: 'Assuntos',
+  browseCategory: 'Mais nesta categoria',
+  relatedReading: 'Leituras relacionadas',
+  articleDetails: 'Sobre esta pesquisa',
 };
 
 const es: Messages = {
@@ -90,6 +126,16 @@ const es: Messages = {
   login: 'Iniciar sesión',
   register: 'Registrarse',
   logout: 'Cerrar sesión',
+  backToLibrary: 'Volver a la biblioteca',
+  downloads: 'Descargas y archivos adjuntos',
+  viewOriginal: 'Ver recurso original',
+  download: 'Descargar',
+  summary: 'Resumen',
+  workingGroups: 'Grupos de trabajo',
+  subjects: 'Temas',
+  browseCategory: 'Más en esta categoría',
+  relatedReading: 'Lecturas relacionadas',
+  articleDetails: 'Sobre esta investigación',
 };
 
 export const messages: Record<Locale, Messages> = { en, fr, pt, es };

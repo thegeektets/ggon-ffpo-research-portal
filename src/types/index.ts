@@ -4,6 +4,31 @@ export type Locale = 'en' | 'fr' | 'pt' | 'es';
 
 export type ResearchStatus = 'published' | 'pending' | 'draft' | 'changes_requested';
 
+export type AttachmentFileType = 'pdf' | 'xlsx' | 'csv' | 'zip' | 'image' | 'docx';
+
+export interface ResearchAttachment {
+  id: string;
+  label: Record<Locale, string>;
+  fileName: string;
+  url: string;
+  fileType: AttachmentFileType;
+  sizeLabel: string;
+}
+
+export type ArticleSection =
+  | { type: 'heading'; level: 2 | 3; text: Record<Locale, string> }
+  | { type: 'paragraph'; text: Record<Locale, string> }
+  | { type: 'quote'; text: Record<Locale, string>; attribution?: Record<Locale, string> }
+  | { type: 'list'; ordered?: boolean; items: Record<Locale, string>[] }
+  | {
+      type: 'image';
+      src: string;
+      alt: Record<Locale, string>;
+      caption?: Record<Locale, string>;
+      width?: number;
+      height?: number;
+    };
+
 export interface User {
   id: string;
   name: string;
@@ -46,6 +71,9 @@ export interface ResearchItem {
   workingGroups: string[];
   subjects: string[];
   url?: string;
+  coverImage?: string;
+  body?: ArticleSection[];
+  attachments?: ResearchAttachment[];
   status: ResearchStatus;
   submittedBy?: string;
   tags: string[];
