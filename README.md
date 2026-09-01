@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GGON FFPO Research Portal — Prototype Sample
 
-## Getting Started
+Working prototype for the **Global Gas and Oil Network (GGON) Fossil Fuel Phase-Out (FFPO) Research Portal**, built by [Dezari Ventures Ltd](https://www.dezari.co.ke) in response to the GGON Terms of Reference (August 2026).
 
-First, run the development server:
+## What this demonstrates
+
+| ToR requirement | Prototype feature |
+|-----------------|-------------------|
+| Research library with Boolean search | `/library` — keyword search with `AND` / `OR` |
+| Rich metadata filters | Geography, industry side, petroleum chain, RWG priorities, WG, content type, year |
+| Members-only access | Registration + login with admin approval queue |
+| Four user roles | Owner, Administrator, Editor, Reviewer, Member |
+| Submission workflow | `/submit` → admin review queue → approve/reject |
+| Admin dashboard | `/admin` — stats, submissions, registrations, role management |
+| Multilingual UI | EN / FR / PT / ES language switcher |
+| Priority themes & narratives | `/themes`, `/narratives` |
+| Member directory & Ask & Connect | `/members`, `/ask-connect` |
+| Responsive design | Mobile-friendly Tailwind layout |
+
+## Quick start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo accounts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Password for all: **`demo123`**
 
-## Learn More
+| Email | Role |
+|-------|------|
+| `owner@ggon.demo` | Owner |
+| `admin@ggon.demo` | Administrator |
+| `editor@ggon.demo` | Editor |
+| `reviewer@ggon.demo` | Reviewer |
+| `member@ggon.demo` | Member |
 
-To learn more about Next.js, take a look at the following resources:
+## Tech stack (per proposal)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend:** Next.js 16, React, TypeScript, Tailwind CSS
+- **i18n:** Client-side locale switching (EN/FR/PT/ES)
+- **Data:** Sample in-memory research library (production would use PostgreSQL + API)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Production roadmap
 
-## Deploy on Vercel
+- PostgreSQL + Prisma for research metadata and full-text search
+- NextAuth or similar for session management
+- SendGrid/Mailgun + Slack/Asana integrations
+- Secure file uploads for research submissions
+- Editorial draft/publish workflow for site copy
+- Deployment to GGON-owned hosting (DigitalOcean VPS recommended in proposal)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Prototype sample for GGON evaluation — © Dezari Ventures Ltd 2026
