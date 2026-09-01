@@ -4,27 +4,51 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { RoleBadge } from '@/components/Header';
+import { SubmissionReviewCard } from '@/components/SubmissionReviewCard';
 import { SubmissionStatusBadge } from '@/components/SubmissionStatusBadge';
 import { useApp } from '@/context/AppContext';
 import { demoUsers } from '@/data/users';
+import {
+  BookOpen,
+  FileText,
+  ICON_INLINE,
+  Library,
+  ListChecks,
+  Plus,
+  Search,
+  ShieldCheck,
+  Upload,
+  Users,
+} from '@/lib/icons';
+import {
+  canAccessAdmin,
+  canApproveMemberships,
+  canPublishSubmissions,
+  canReviewSubmissions,
+  isAwaitingPublish,
+  isInReviewQueue,
+} from '@/lib/permissions';
 import { usePortalStore } from '@/lib/store';
 import type { SubmissionStatus } from '@/types';
 
 function statusLabel(tr: (key: string) => string, status: SubmissionStatus): string {
-  const key = `status_${status}` as const;
-  return tr(key);
+  return tr(`status_${status}`);
 }
 
 export default function DashboardPage() {
   const { user, tr } = useApp();
   const router = useRouter();
-  const { submissions, registrations, researchLibrary } = usePortalStore();
+  const { submissions, registrations, researchLibrary, updateSubmission, updateSubmissionEditor, publishSubmission } =
+    usePortalStore();
 
   useEffect(() => {
     if (!user) router.replace('/login');
   }, [user, router]);
 
-  const canAdmin = user ? ['owner', 'administrator', 'editor', 'reviewer'].includes(user.role) : false;
+  const canReview = user ? canReviewSubmissions(user.role) : false;
+  const canPublish = user ? canPublishSubmissions(user.role) : false;
+  const canAdmin = user ? canAccessAdmin(user.role) : false;
+  const canApproveMembers = user ? canApproveMemberships(user.role) : false;
 
   const mySubmissions = useMemo(
     () =>
@@ -36,14 +60,16 @@ export default function DashboardPage() {
     [submissions, user],
   );
 
-  const pendingReview = submissions.filter((s) => s.status === 'pending').length;
-  const awaitingPublish = submissions.filter((s) => s.status === 'approved').length;
+  const reviewQueue = useMemo(() => submissions.filter((s) => isInReviewQueue(s.status)), [submissions]);
+  const publishQueue = useMemo(() => submissions.filter((s) => isAwaitingPublish(s.status)), [submissions]);
   const pendingRegistrations = registrations.length;
   const memberCount = demoUsers.filter((u) => u.approved).length;
 
   const myByStatus = useMemo(() => {
     const counts: Record<SubmissionStatus, number> = {
-      pending: 0,
+      draft: 0,
+      submitted: 0,
+      under_review: 0,
       approved: 0,
       rejected: 0,
       changes_requested: 0,
@@ -55,7 +81,15 @@ export default function DashboardPage() {
 
   if (!user) return null;
 
-  const adminNeedsAttention = canAdmin && (pendingReview > 0 || awaitingPublish > 0 || pendingRegistrations > 0);
+  const myInReview = myByStatus.submitted + myByStatus.under_review + myByStatus.changes_requested;
+  const adminNeedsAttention =
+    (canReview && reviewQueue.length > 0) ||
+    (canPublish && publishQueue.length > 0) ||
+    (canApproveMembers && pendingRegistrations > 0);
+
+  const handleReview = (id: string, status: 'approved' | 'rejected' | 'changes_requested', note: string) => {
+    updateSubmission(id, status, { note, reviewedBy: user.email });
+  };
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">
@@ -63,50 +97,83 @@ export default function DashboardPage() {
         <p className="ggon-label text-xs text-white/80">{tr('memberWorkspace')}</p>
         <h1 className="mt-1 text-2xl font-bold">{tr('workspaceWelcome')}</h1>
         <p className="mt-2 max-w-2xl text-sm text-white/90">
-          {tr('workspaceIntro')} <RoleBadge role={user.role} />
+          {canReview
+            ? tr('dashboardReviewerIntro')
+            : canPublish && !canReview
+              ? tr('dashboardEditorIntro')
+              : tr('workspaceIntro')}{' '}
+          <RoleBadge role={user.role} />
         </p>
       </div>
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="border border-[#dcdcdc] bg-white p-4">
-          <p className="ggon-label text-2xl text-[#1a6b7a]">{mySubmissions.length}</p>
+          <div className="flex items-start justify-between gap-2">
+            <p className="ggon-label text-2xl text-[#1a6b7a]">{mySubmissions.length}</p>
+            <FileText size={20} strokeWidth={1.75} className="shrink-0 text-[#1a6b7a]/40" aria-hidden />
+          </div>
           <p className="text-sm font-medium text-[#242424]">{tr('dashboardMySubmissions')}</p>
           {mySubmissions.length > 0 && (
             <p className="mt-1 text-xs text-[#7f7f7f]">
-              {myByStatus.pending > 0 && `${myByStatus.pending} ${tr('status_pending').toLowerCase()}`}
-              {myByStatus.pending > 0 && myByStatus.published > 0 && ' · '}
+              {myInReview > 0 && `${myInReview} ${tr('dashboardInReview').toLowerCase()}`}
+              {myInReview > 0 && myByStatus.published > 0 && ' · '}
               {myByStatus.published > 0 && `${myByStatus.published} ${tr('status_published').toLowerCase()}`}
             </p>
           )}
         </div>
 
         <div className="border border-[#dcdcdc] bg-white p-4">
-          <p className="ggon-label text-2xl text-[#1a6b7a]">{researchLibrary.length}</p>
+          <div className="flex items-start justify-between gap-2">
+            <p className="ggon-label text-2xl text-[#1a6b7a]">{researchLibrary.length}</p>
+            <Library size={20} strokeWidth={1.75} className="shrink-0 text-[#1a6b7a]/40" aria-hidden />
+          </div>
           <p className="text-sm font-medium text-[#242424]">{tr('dashboardLibraryArticles')}</p>
-          <Link href="/library" className="ggon-link mt-1 inline-block text-xs font-semibold hover:underline">
+          <Link href="/library" className="ggon-link mt-1 inline-flex items-center gap-1 text-xs font-semibold hover:underline">
+            <BookOpen size={ICON_INLINE} strokeWidth={2} aria-hidden />
             {tr('browsePublicLibrary')} →
           </Link>
         </div>
 
         <div className="border border-[#dcdcdc] bg-white p-4">
-          <p className="ggon-label text-2xl text-[#1a6b7a]">{memberCount}</p>
+          <div className="flex items-start justify-between gap-2">
+            <p className="ggon-label text-2xl text-[#1a6b7a]">{memberCount}</p>
+            <Users size={20} strokeWidth={1.75} className="shrink-0 text-[#1a6b7a]/40" aria-hidden />
+          </div>
           <p className="text-sm font-medium text-[#242424]">{tr('dashboardNetworkMembers')}</p>
-          <Link href="/members" className="ggon-link mt-1 inline-block text-xs font-semibold hover:underline">
+          <Link href="/members" className="ggon-link mt-1 inline-flex items-center gap-1 text-xs font-semibold hover:underline">
+            <Users size={ICON_INLINE} strokeWidth={2} aria-hidden />
             {tr('viewMembers')} →
           </Link>
         </div>
 
-        {canAdmin ? (
+        {canReview ? (
           <div className="border border-[#1a6b7a] bg-[#e8f4f6] p-4">
-            <p className="ggon-label text-2xl text-[#1a6b7a]">{pendingReview + awaitingPublish}</p>
-            <p className="text-sm font-medium text-[#242424]">{tr('dashboardAdminQueue')}</p>
+            <div className="flex items-start justify-between gap-2">
+              <p className="ggon-label text-2xl text-[#1a6b7a]">{reviewQueue.length}</p>
+              <Search size={20} strokeWidth={1.75} className="shrink-0 text-[#1a6b7a]/40" aria-hidden />
+            </div>
+            <p className="text-sm font-medium text-[#242424]">{tr('dashboardReviewQueue')}</p>
             <Link href="/admin" className="ggon-link mt-1 inline-block text-xs font-semibold hover:underline">
-              {tr('openAdmin')} →
+              {tr('dashboardReviewNow')} →
+            </Link>
+          </div>
+        ) : canPublish ? (
+          <div className="border border-[#1a6b7a] bg-[#e8f4f6] p-4">
+            <div className="flex items-start justify-between gap-2">
+              <p className="ggon-label text-2xl text-[#1a6b7a]">{publishQueue.length}</p>
+              <ListChecks size={20} strokeWidth={1.75} className="shrink-0 text-[#1a6b7a]/40" aria-hidden />
+            </div>
+            <p className="text-sm font-medium text-[#242424]">{tr('dashboardPublishQueue')}</p>
+            <Link href="/admin" className="ggon-link mt-1 inline-block text-xs font-semibold hover:underline">
+              {tr('dashboardPublishNow')} →
             </Link>
           </div>
         ) : (
           <div className="border border-[#dcdcdc] bg-white p-4">
-            <p className="ggon-label text-2xl text-[#1a6b7a]">{myByStatus.pending + myByStatus.changes_requested}</p>
+            <div className="flex items-start justify-between gap-2">
+              <p className="ggon-label text-2xl text-[#1a6b7a]">{myInReview}</p>
+              <Search size={20} strokeWidth={1.75} className="shrink-0 text-[#1a6b7a]/40" aria-hidden />
+            </div>
             <p className="text-sm font-medium text-[#242424]">{tr('dashboardInReview')}</p>
             {mySubmissions.length > 0 && (
               <a href="#my-submissions" className="ggon-link mt-1 inline-block text-xs font-semibold hover:underline">
@@ -121,23 +188,23 @@ export default function DashboardPage() {
         <section className="border border-[#1a6b7a] bg-[#e8f4f6] p-5">
           <h2 className="ggon-label text-sm text-[#1a6b7a]">{tr('dashboardAdminAlert')}</h2>
           <ul className="mt-2 space-y-1 text-sm text-[#242424]">
-            {pendingReview > 0 && (
+            {canReview && reviewQueue.length > 0 && (
               <li>
-                {pendingReview} {tr('dashboardPendingSubmissions')}{' '}
+                {reviewQueue.length} {tr('dashboardPendingSubmissions')}{' '}
                 <Link href="/admin" className="ggon-link font-semibold hover:underline">
                   {tr('dashboardReviewNow')}
                 </Link>
               </li>
             )}
-            {awaitingPublish > 0 && (
+            {canPublish && publishQueue.length > 0 && (
               <li>
-                {awaitingPublish} {tr('dashboardAwaitingPublish')}{' '}
+                {publishQueue.length} {tr('dashboardAwaitingPublish')}{' '}
                 <Link href="/admin" className="ggon-link font-semibold hover:underline">
                   {tr('dashboardPublishNow')}
                 </Link>
               </li>
             )}
-            {pendingRegistrations > 0 && (
+            {canApproveMembers && pendingRegistrations > 0 && (
               <li>
                 {pendingRegistrations} {tr('dashboardPendingRegistrations')}{' '}
                 <Link href="/admin" className="ggon-link font-semibold hover:underline">
@@ -149,24 +216,100 @@ export default function DashboardPage() {
         </section>
       )}
 
+      {canReview && reviewQueue.length > 0 && (
+        <section id="review-queue">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="ggon-section-title ggon-label text-lg">{tr('dashboardReviewQueueTitle')}</h2>
+              <p className="mt-1 text-sm text-[#7f7f7f]">{tr('dashboardReviewQueueIntro')}</p>
+            </div>
+            <Link href="/admin" className="ggon-link text-xs font-bold uppercase tracking-widest hover:underline">
+              {tr('openAdmin')} →
+            </Link>
+          </div>
+          <div className="mt-4 space-y-4">
+            {reviewQueue.slice(0, 2).map((sub) => (
+              <SubmissionReviewCard
+                key={sub.id}
+                sub={sub}
+                user={user}
+                onApprove={(note) => handleReview(sub.id, 'approved', note)}
+                onReject={(note) => handleReview(sub.id, 'rejected', note)}
+                onRequestChanges={(note) => handleReview(sub.id, 'changes_requested', note)}
+                onSaveEditor={(editorBody, editorNote) => updateSubmissionEditor(sub.id, editorBody, editorNote)}
+                onPublish={(editorBody, editorNote) => {
+                  updateSubmissionEditor(sub.id, editorBody, editorNote);
+                  return publishSubmission(sub.id);
+                }}
+              />
+            ))}
+            {reviewQueue.length > 2 && (
+              <Link href="/admin" className="ggon-link text-sm font-semibold hover:underline">
+                {tr('dashboardViewAllQueue')} ({reviewQueue.length}) →
+              </Link>
+            )}
+          </div>
+        </section>
+      )}
+
+      {canPublish && publishQueue.length > 0 && (
+        <section id="publish-queue">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="ggon-section-title ggon-label text-lg">{tr('dashboardPublishQueueTitle')}</h2>
+              <p className="mt-1 text-sm text-[#7f7f7f]">{tr('dashboardPublishQueueIntro')}</p>
+            </div>
+            <Link href="/admin" className="ggon-link text-xs font-bold uppercase tracking-widest hover:underline">
+              {tr('openAdmin')} →
+            </Link>
+          </div>
+          <div className="mt-4 space-y-4">
+            {publishQueue.slice(0, 2).map((sub) => (
+              <SubmissionReviewCard
+                key={sub.id}
+                sub={sub}
+                user={user}
+                onApprove={() => {}}
+                onReject={() => {}}
+                onRequestChanges={() => {}}
+                onSaveEditor={(editorBody, editorNote) => updateSubmissionEditor(sub.id, editorBody, editorNote)}
+                onPublish={(editorBody, editorNote) => {
+                  updateSubmissionEditor(sub.id, editorBody, editorNote);
+                  return publishSubmission(sub.id);
+                }}
+              />
+            ))}
+            {publishQueue.length > 2 && (
+              <Link href="/admin" className="ggon-link text-sm font-semibold hover:underline">
+                {tr('dashboardViewAllPublish')} ({publishQueue.length}) →
+              </Link>
+            )}
+          </div>
+        </section>
+      )}
+
       <section className="flex flex-wrap gap-3">
-        <Link href="/submit" className="ggon-btn ggon-btn-teal">
+        <Link href="/submit" className="ggon-btn ggon-btn-teal inline-flex items-center gap-2">
+          <Plus size={ICON_INLINE} strokeWidth={2} aria-hidden />
           {tr('dashboardNewSubmission')}
         </Link>
         {mySubmissions.length > 0 && (
-          <a href="#my-submissions" className="ggon-btn">
+          <a href="#my-submissions" className="ggon-btn inline-flex items-center gap-2">
+            <FileText size={ICON_INLINE} strokeWidth={2} aria-hidden />
             {tr('dashboardViewMine')}
           </a>
         )}
-        <Link href="/library" className="ggon-btn">
+        <Link href="/library" className="ggon-btn inline-flex items-center gap-2">
+          <BookOpen size={ICON_INLINE} strokeWidth={2} aria-hidden />
           {tr('browsePublicLibrary')}
         </Link>
         {canAdmin && (
-          <Link href="/admin" className="ggon-btn ggon-btn-accent">
+          <Link href="/admin" className="ggon-btn ggon-btn-accent inline-flex items-center gap-2">
+            <ShieldCheck size={ICON_INLINE} strokeWidth={2} aria-hidden />
             {tr('openAdmin')}
-            {(pendingReview + awaitingPublish) > 0 && (
+            {(reviewQueue.length + publishQueue.length) > 0 && (
               <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/90 px-1.5 text-[10px] font-bold text-[#a34b12]">
-                {pendingReview + awaitingPublish}
+                {canReview ? reviewQueue.length + (canPublish ? publishQueue.length : 0) : publishQueue.length}
               </span>
             )}
           </Link>
@@ -179,15 +322,20 @@ export default function DashboardPage() {
             <h2 className="ggon-section-title ggon-label text-lg">{tr('yourSubmissions')}</h2>
             <p className="mt-1 text-sm text-[#7f7f7f]">{tr('dashboardSubmissionsIntro')}</p>
           </div>
-          <Link href="/submit" className="ggon-link text-xs font-bold uppercase tracking-widest hover:underline">
-            + {tr('dashboardNewSubmission')}
+          <Link href="/submit" className="ggon-link inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest hover:underline">
+            <Plus size={ICON_INLINE} strokeWidth={2} aria-hidden />
+            {tr('dashboardNewSubmission')}
           </Link>
         </div>
 
         {mySubmissions.length === 0 ? (
-          <div className="mt-4 border border-dashed border-[#dcdcdc] bg-white p-8 text-center">
-            <p className="text-sm text-[#7f7f7f]">{tr('dashboardNoSubmissions')}</p>
-            <Link href="/submit" className="ggon-btn ggon-btn-teal mt-4 inline-block">
+          <div className="mt-4 rounded-lg border border-dashed border-[#1a6b7a]/30 bg-gradient-to-br from-[#e8f4f6] to-white p-10 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#e8f4f6] text-[#1a6b7a]">
+              <FileText size={28} strokeWidth={1.5} />
+            </div>
+            <p className="mt-4 text-sm text-[#7f7f7f]">{tr('dashboardNoSubmissions')}</p>
+            <Link href="/submit" className="ggon-btn ggon-btn-teal mt-5 inline-flex items-center gap-2 shadow-sm">
+              <Upload size={ICON_INLINE} strokeWidth={2} aria-hidden />
               {tr('goToSubmit')}
             </Link>
           </div>
@@ -196,8 +344,8 @@ export default function DashboardPage() {
             {mySubmissions.map((sub) => (
               <li
                 key={sub.id}
-                className="border border-[#dcdcdc] bg-white p-4"
-                style={{ borderLeftWidth: 4, borderLeftColor: '#1a6b7a' }}
+                className="ggon-submission-card"
+                style={{ borderLeftColor: '#1a6b7a' }}
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
@@ -213,7 +361,7 @@ export default function DashboardPage() {
                       {' · '}
                       {sub.contentType} · {sub.category}
                     </p>
-                    {sub.reviewerNote && sub.status === 'changes_requested' && (
+                    {sub.reviewerNote && (sub.status === 'changes_requested' || sub.status === 'rejected') && (
                       <p className="mt-2 border-l-2 border-orange-300 bg-orange-50 px-3 py-2 text-xs text-orange-900">
                         <span className="font-semibold">{tr('reviewerFeedback')}:</span> {sub.reviewerNote}
                       </p>
@@ -223,6 +371,14 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="mt-3 flex flex-wrap gap-3 text-xs">
+                  {sub.status === 'draft' && (
+                    <Link
+                      href={`/submit?draft=${sub.id}`}
+                      className="ggon-link font-bold uppercase tracking-widest hover:underline"
+                    >
+                      {tr('continueDraft')} →
+                    </Link>
+                  )}
                   {sub.status === 'published' && sub.publishedSlug && (
                     <Link
                       href={`/library/${sub.publishedSlug}`}
@@ -233,7 +389,7 @@ export default function DashboardPage() {
                   )}
                   {sub.status === 'changes_requested' && (
                     <Link
-                      href="/submit"
+                      href={`/submit?resubmit=${sub.id}`}
                       className="ggon-link font-bold uppercase tracking-widest hover:underline"
                     >
                       {tr('dashboardResubmit')} →
@@ -251,13 +407,20 @@ export default function DashboardPage() {
         )}
       </section>
 
-      <section className="border border-[#dcdcdc] bg-white p-5">
-        <h2 className="ggon-label text-sm text-[#1a6b7a]">{tr('dashboardWorkflowTitle')}</h2>
-        <ol className="mt-3 space-y-2 text-sm text-[#444]">
-          <li>1. {tr('dashboardWorkflowStep1')}</li>
-          <li>2. {tr('dashboardWorkflowStep2')}</li>
-          <li>3. {tr('dashboardWorkflowStep3')}</li>
-          <li>4. {tr('dashboardWorkflowStep4')}</li>
+      <section className="rounded-lg border border-[#dcdcdc] bg-white p-6 shadow-sm">
+        <h2 className="ggon-section-title ggon-label text-sm text-[#1a6b7a]">{tr('dashboardWorkflowTitle')}</h2>
+        <ol className="mt-2">
+          {[
+            tr('dashboardWorkflowStep1'),
+            tr('dashboardWorkflowStep2'),
+            tr('dashboardWorkflowStep3'),
+            tr('dashboardWorkflowStep4'),
+          ].map((step, i) => (
+            <li key={step} className="ggon-workflow-step">
+              <span className="ggon-workflow-step-num">{i + 1}</span>
+              <p className="pt-1 text-sm text-[#444]">{step}</p>
+            </li>
+          ))}
         </ol>
       </section>
     </div>

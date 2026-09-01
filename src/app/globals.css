@@ -244,3 +244,170 @@ h3,
   font-family: Georgia, serif;
 }
 
+/* ── Workspace shell ── */
+
+.ggon-workspace {
+  background: linear-gradient(160deg, #f5fafb 0%, #eef6f7 45%, #faf8f5 100%);
+}
+
+.ggon-sidebar {
+  background: linear-gradient(175deg, #0d3d47 0%, #145662 28%, #1a6b7a 65%, #1c4a3f 100%);
+  position: relative;
+}
+
+.ggon-sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(126, 200, 212, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(45, 106, 79, 0.2) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.ggon-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.375rem;
+  font-family: var(--font-oswald), Oswald, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.72);
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  border-left: 3px solid transparent;
+}
+
+.ggon-sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.ggon-sidebar-link-active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border-left-color: #7ec8d4;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.ggon-workspace-header {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(26, 107, 122, 0.12);
+  box-shadow: 0 1px 3px rgba(26, 107, 122, 0.06);
+}
+
+.ggon-mobile-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 9999px;
+  font-family: var(--font-oswald), Oswald, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.ggon-mobile-nav-pill-active {
+  background: linear-gradient(135deg, #1a6b7a 0%, #2d6a4f 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(26, 107, 122, 0.35);
+}
+
+.ggon-mobile-nav-pill-inactive {
+  background: #fff;
+  color: #242424;
+  border: 1px solid #dcdcdc;
+}
+
+.ggon-stat-card {
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(28, 28, 28, 0.04);
+}
+
+.ggon-stat-card-featured {
+  border-width: 1px;
+  box-shadow: 0 4px 14px rgba(26, 107, 122, 0.12);
+}
+
+.ggon-workspace-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: linear-gradient(120deg, #1a6b7a 0%, #2d6a4f 55%, #1c4a3f 100%);
+  color: #fff;
+  padding: 2rem 1.75rem;
+}
+
+.ggon-workspace-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 80% at 100% 0%, rgba(126, 200, 212, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 0% 100%, rgba(196, 92, 38, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.ggon-workspace-hero > * {
+  position: relative;
+}
+
+.ggon-admin-alert {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(26, 107, 122, 0.35);
+  background: linear-gradient(135deg, #e8f4f6 0%, #f5fafb 50%, #fef3e8 100%);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(26, 107, 122, 0.08);
+}
+
+.ggon-submission-card {
+  border: 1px solid #dcdcdc;
+  border-left-width: 4px;
+  border-radius: 0.375rem;
+  background: #fff;
+  padding: 1.25rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.ggon-submission-card:hover {
+  box-shadow: 0 4px 16px rgba(28, 28, 28, 0.08);
+  border-color: #c8d8dc;
+}
+
+.ggon-workflow-step {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #efefef;
+}
+
+.ggon-workflow-step:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.ggon-workflow-step-num {
+  display: flex;
+  height: 2rem;
+  width: 2rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-family: var(--font-oswald), Oswald, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #1a6b7a 0%, #2d6a4f 100%);
+}
+

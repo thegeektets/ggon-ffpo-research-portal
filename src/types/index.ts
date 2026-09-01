@@ -94,7 +94,14 @@ export interface SubmissionFile {
   sizeLabel: string;
 }
 
-export type SubmissionStatus = 'pending' | 'approved' | 'rejected' | 'changes_requested' | 'published';
+export type SubmissionStatus =
+  | 'draft'
+  | 'submitted'
+  | 'under_review'
+  | 'approved'
+  | 'rejected'
+  | 'changes_requested'
+  | 'published';
 
 export interface Submission {
   id: string;
@@ -104,6 +111,8 @@ export interface Submission {
   submittedBy: string;
   submittedAt: string;
   status: SubmissionStatus;
+  reviewedBy?: string;
+  reviewedAt?: string;
   reviewerNote?: string;
   editorNote?: string;
   editorBody?: string;

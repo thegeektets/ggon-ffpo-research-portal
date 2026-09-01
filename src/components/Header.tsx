@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
+import { ICON_INLINE, ICON_NAV, LayoutDashboard, LogIn, LogOut, publicNavIcons, UserPlus } from '@/lib/icons';
 import { localeLabels, locales } from '@/lib/i18n';
 import type { UserRole } from '@/types';
 
@@ -44,7 +45,9 @@ export function Header() {
             onHome ? 'text-white' : 'text-[#242424]'
           }`}
         >
-          {nav.map((item) => (
+          {nav.map((item) => {
+            const NavIcon = publicNavIcons[item.href];
+            return (
             <Link
               key={item.href}
               href={item.href}
@@ -58,18 +61,23 @@ export function Header() {
                     : 'text-[#7f7f7f] hover:text-[#1a6b7a]'
               }
             >
-              {tr(item.key)}
+              <span className="inline-flex items-center gap-1.5">
+                {NavIcon && <NavIcon size={ICON_NAV} strokeWidth={2} className="shrink-0" aria-hidden />}
+                {tr(item.key)}
+              </span>
             </Link>
-          ))}
+            );
+          })}
           {user && (
             <Link
               href="/dashboard"
               className={
                 onHome
-                  ? 'bg-white/20 px-3 py-1.5 text-white hover:bg-white/30'
-                  : 'bg-[#1a6b7a] px-3 py-1.5 text-white hover:bg-[#145662]'
+                  ? 'inline-flex items-center gap-1.5 bg-white/20 px-3 py-1.5 text-white hover:bg-white/30'
+                  : 'inline-flex items-center gap-1.5 bg-[#1a6b7a] px-3 py-1.5 text-white hover:bg-[#145662]'
               }
             >
+              <LayoutDashboard size={ICON_INLINE} strokeWidth={2} aria-hidden />
               {tr('memberWorkspace')} →
             </Link>
           )}
@@ -90,15 +98,18 @@ export function Header() {
             ))}
           </select>
           {user ? (
-            <button type="button" onClick={() => setUser(null)} className="ggon-btn !py-1 !text-xs">
+            <button type="button" onClick={() => setUser(null)} className="ggon-btn inline-flex items-center gap-1.5 !py-1 !text-xs">
+              <LogOut size={ICON_INLINE} strokeWidth={2} aria-hidden />
               {tr('logout')}
             </button>
           ) : (
             <>
-              <Link href="/login" className={`ggon-link text-xs uppercase ${onHome ? '!text-white' : ''}`}>
+              <Link href="/login" className={`ggon-link inline-flex items-center gap-1.5 text-xs uppercase ${onHome ? '!text-white' : ''}`}>
+                <LogIn size={ICON_INLINE} strokeWidth={2} aria-hidden />
                 {tr('login')}
               </Link>
-              <Link href="/register" className="ggon-btn ggon-btn-teal !py-1 !text-xs">
+              <Link href="/register" className="ggon-btn ggon-btn-teal inline-flex items-center gap-1.5 !py-1 !text-xs">
+                <UserPlus size={ICON_INLINE} strokeWidth={2} aria-hidden />
                 {tr('register')}
               </Link>
             </>

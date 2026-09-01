@@ -15,7 +15,7 @@ let submissions: Submission[] = [
     url: 'https://example.org/methane-lng',
     submittedBy: 'member@ggon.demo',
     submittedAt: '2026-08-28T10:00:00Z',
-    status: 'pending',
+    status: 'under_review',
     authors: ['K. Mensah'],
     organization: 'West Africa Climate Watch',
     year: 2025,
@@ -41,6 +41,54 @@ let submissions: Submission[] = [
       },
     ],
   },
+  {
+    id: 's2',
+    title: 'Just transition financing models for coal regions',
+    summary:
+      'Comparative analysis of public finance instruments supporting fossil fuel phase-out in coal-dependent communities.',
+    submittedBy: 'member@ggon.demo',
+    submittedAt: '2026-08-20T14:30:00Z',
+    status: 'approved',
+    reviewedBy: 'reviewer@ggon.demo',
+    reviewedAt: '2026-08-22T09:00:00Z',
+    reviewerNote: 'Strong analysis — ready for editorial composition.',
+    authors: ['L. Chen'],
+    organization: 'Climate Action Network',
+    year: 2025,
+    geographicScope: 'Global',
+    industrySide: 'Both',
+    petroleumChain: 'Multiple',
+    category: 'Finance',
+    contentType: 'Policy brief',
+    rwgPriorities: ['Just transition pathways'],
+    workingGroups: ['Finance'],
+    subjects: ['Finance', 'Just transition'],
+    tags: ['finance', 'coal', 'just transition'],
+    coverImageUrl: '/images/articles/finance-cover.jpg',
+    files: [],
+  },
+  {
+    id: 's3',
+    title: 'Community-led monitoring of gas flaring in the Niger Delta',
+    summary: 'Draft case study on citizen science approaches to tracking flaring violations.',
+    submittedBy: 'member@ggon.demo',
+    submittedAt: '2026-08-25T08:00:00Z',
+    status: 'draft',
+    authors: ['A. Okonkwo'],
+    organization: 'Climate Action Network',
+    year: 2025,
+    geographicScope: 'National',
+    country: 'Nigeria',
+    industrySide: 'Supply',
+    petroleumChain: 'Upstream',
+    category: 'Ecological and social impacts',
+    contentType: 'Case study',
+    rwgPriorities: ['Social justice and community perspectives'],
+    workingGroups: ['Onshore'],
+    subjects: ['Gas', 'Community'],
+    tags: ['flaring', 'nigeria', 'community'],
+    files: [],
+  },
 ];
 
 let registrations: RegistrationRequest[] = [
@@ -60,6 +108,8 @@ function allSlugs(): string[] {
   return [...seedResearchLibrary, ...publishedResearch].map((item) => item.slug);
 }
 
+type SubmissionInput = Omit<Submission, 'id' | 'submittedAt' | 'status'>;
+
 export function usePortalStore() {
   const [, setTick] = useState(0);
   const refresh = () => setTick((n) => n + 1);
@@ -75,21 +125,62 @@ export function usePortalStore() {
     researchLibrary,
     getRichArticle,
     publishedCount: publishedResearch.length,
-    addSubmission: (sub: Omit<Submission, 'id' | 'submittedAt' | 'status'>) => {
+    addSubmission: (sub: SubmissionInput, status: Submission['status'] = 'submitted') => {
       submissions = [
         {
           ...sub,
           id: `s${Date.now()}`,
           submittedAt: new Date().toISOString(),
-          status: 'pending',
+          status: status === 'submitted' ? 'under_review' : status,
         },
         ...submissions,
       ];
       refresh();
     },
-    updateSubmission: (id: string, status: Submission['status'], note?: string) => {
+    resubmitSubmission: (id: string, sub: SubmissionInput) => {
       submissions = submissions.map((s) =>
-        s.id === id ? { ...s, status, reviewerNote: note ?? s.reviewerNote } : s,
+        s.id === id
+          ? {
+              ...sub,
+              id: s.id,
+              submittedAt: new Date().toISOString(),
+              status: 'under_review',
+              reviewedBy: undefined,
+              reviewedAt: undefined,
+              reviewerNote: undefined,
+            }
+          : s,
+      );
+      refresh();
+    },
+    updateSubmissionContent: (id: string, sub: SubmissionInput, status?: Submission['status']) => {
+      submissions = submissions.map((s) =>
+        s.id === id
+          ? {
+              ...sub,
+              id: s.id,
+              submittedAt: s.submittedAt,
+              status: status ?? s.status,
+            }
+          : s,
+      );
+      refresh();
+    },
+    updateSubmission: (
+      id: string,
+      status: Submission['status'],
+      options?: { note?: string; reviewedBy?: string },
+    ) => {
+      submissions = submissions.map((s) =>
+        s.id === id
+          ? {
+              ...s,
+              status,
+              reviewerNote: options?.note ?? s.reviewerNote,
+              reviewedBy: options?.reviewedBy ?? s.reviewedBy,
+              reviewedAt: options?.reviewedBy ? new Date().toISOString() : s.reviewedAt,
+            }
+          : s,
       );
       refresh();
     },

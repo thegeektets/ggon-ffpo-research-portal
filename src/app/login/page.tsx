@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { DEMO_PASSWORD, demoUsers } from '@/data/users';
 import { useApp } from '@/context/AppContext';
+import { ICON_INLINE, LogIn, Mail, Shield } from '@/lib/icons';
 
 export default function LoginPage() {
   const { setUser, tr } = useApp();
@@ -14,7 +15,12 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto max-w-md space-y-6">
-      <h1 className="text-2xl font-bold">{tr('login')}</h1>
+      <div className="flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#e8f4f6] text-[#1a6b7a]">
+          <LogIn size={20} strokeWidth={1.75} aria-hidden />
+        </div>
+        <h1 className="text-2xl font-bold">{tr('login')}</h1>
+      </div>
       <form
         className="space-y-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
         onSubmit={(e) => {
@@ -34,7 +40,10 @@ export default function LoginPage() {
       >
         {error && <p className="rounded bg-red-50 p-2 text-sm text-red-700">{error}</p>}
         <label className="block text-sm">
-          Email
+          <span className="inline-flex items-center gap-1.5">
+            <Mail size={ICON_INLINE} strokeWidth={2} className="text-gray-400" aria-hidden />
+            Email
+          </span>
           <input
             type="email"
             value={email}
@@ -44,7 +53,10 @@ export default function LoginPage() {
           />
         </label>
         <label className="block text-sm">
-          Password
+          <span className="inline-flex items-center gap-1.5">
+            <Shield size={ICON_INLINE} strokeWidth={2} className="text-gray-400" aria-hidden />
+            Password
+          </span>
           <input
             type="password"
             value={password}
@@ -53,7 +65,8 @@ export default function LoginPage() {
             required
           />
         </label>
-        <button type="submit" className="ggon-btn ggon-btn-teal w-full">
+        <button type="submit" className="ggon-btn ggon-btn-teal inline-flex w-full items-center justify-center gap-2">
+          <LogIn size={ICON_INLINE} strokeWidth={2} aria-hidden />
           {tr('login')}
         </button>
       </form>

@@ -1,14 +1,33 @@
 'use client';
 
 import Link from 'next/link';
+import { useMemo } from 'react';
 import { demoUsers } from '@/data/users';
 import { RoleBadge } from '@/components/Header';
 import { SubmissionReviewCard } from '@/components/SubmissionReviewCard';
 import { useApp } from '@/context/AppContext';
+import {
+  canAccessAdmin,
+  canApproveMemberships,
+  canManageTeam,
+  canPublishSubmissions,
+  canReviewSubmissions,
+  isAwaitingPublish,
+  isInReviewQueue,
+} from '@/lib/permissions';
 import { usePortalStore } from '@/lib/store';
+import {
+  Check,
+  Globe,
+  ICON_INLINE,
+  Library,
+  ListChecks,
+  Search,
+  X,
+} from '@/lib/icons';
 
 export default function AdminPage() {
-  const { user } = useApp();
+  const { user, tr } = useApp();
   const {
     submissions,
     registrations,
@@ -21,74 +40,156 @@ export default function AdminPage() {
     rejectRegistration,
   } = usePortalStore();
 
-  if (!user || !['owner', 'administrator', 'editor', 'reviewer'].includes(user.role)) {
+  const reviewQueue = useMemo(() => submissions.filter((s) => isInReviewQueue(s.status)), [submissions]);
+  const publishQueue = useMemo(() => submissions.filter((s) => isAwaitingPublish(s.status)), [submissions]);
+  const otherSubmissions = useMemo(
+    () => submissions.filter((s) => !isInReviewQueue(s.status) && !isAwaitingPublish(s.status)),
+    [submissions],
+  );
+
+  if (!user || !canAccessAdmin(user.role)) {
     return (
       <p className="ggon-section-alt border border-[#dcdcdc] p-4">
-        Admin access required.{' '}
+        {tr('adminAccessRequired')}{' '}
         <Link href="/login" className="ggon-link underline">
-          Log in
+          {tr('login')}
         </Link>{' '}
-        as admin@ggon.demo
+        {tr('adminAccessHint')}
       </p>
     );
   }
 
-  const canApprove = ['owner', 'administrator', 'reviewer'].includes(user.role);
+  const canReview = canReviewSubmissions(user.role);
+  const canPublish = canPublishSubmissions(user.role);
+  const canApprove = canApproveMemberships(user.role);
+
+  const handleReview = (id: string, status: 'approved' | 'rejected' | 'changes_requested', note: string) => {
+    updateSubmission(id, status, { note, reviewedBy: user.email });
+  };
 
   return (
     <div className="space-y-8">
       <div className="ggon-page-banner">
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+        <h1 className="text-2xl font-bold">{tr('adminDashboard')}</h1>
         <p className="mt-1">
-          Logged in as {user.name} <RoleBadge role={user.role} />
+          {tr('adminLoggedInAs')} {user.name} <RoleBadge role={user.role} />
         </p>
+        {user.role === 'editor' && (
+          <p className="mt-2 text-sm text-white/90">{tr('adminEditorHint')}</p>
+        )}
+        {user.role === 'reviewer' && (
+          <p className="mt-2 text-sm text-white/90">{tr('adminReviewerHint')}</p>
+        )}
       </div>
 
-      <section className="grid gap-4 sm:grid-cols-4">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: 'Published research', value: researchLibrary.length },
-          { label: 'Member submissions', value: publishedCount },
-          { label: 'Pending submissions', value: submissions.filter((s) => s.status === 'pending').length },
-          { label: 'Awaiting publish', value: submissions.filter((s) => s.status === 'approved').length },
-        ].map((stat) => (
+          { label: tr('adminStatPublished'), value: researchLibrary.length, icon: Library },
+          { label: tr('adminStatMemberPublished'), value: publishedCount, icon: Globe },
+          ...(canReview
+            ? [{ label: tr('adminStatPendingReview'), value: reviewQueue.length, icon: Search }]
+            : []),
+          ...(canPublish
+            ? [{ label: tr('adminStatAwaitingPublish'), value: publishQueue.length, icon: ListChecks }]
+            : []),
+        ].map((stat) => {
+          const StatIcon = stat.icon;
+          return (
           <div key={stat.label} className="border border-[#dcdcdc] bg-white p-4">
-            <p className="ggon-label text-2xl">{stat.value}</p>
+            <div className="flex items-start justify-between gap-2">
+              <p className="ggon-label text-2xl">{stat.value}</p>
+              <StatIcon size={20} strokeWidth={1.75} className="shrink-0 text-[#1a6b7a]/40" aria-hidden />
+            </div>
             <p className="text-sm text-gray-600">{stat.label}</p>
           </div>
-        ))}
+          );
+        })}
       </section>
 
-      <section>
-        <h2 className="ggon-section-title ggon-label text-lg">Submission workflow</h2>
-        <p className="mt-2 max-w-2xl text-sm text-gray-600">
-          Reviewers approve submissions. Editors compose the article body and publish to the library with cover image and
-          downloadable files.
-        </p>
-        <div className="mt-4 space-y-4">
-          {submissions.length === 0 && <p className="text-sm text-gray-500">No submissions yet.</p>}
-          {submissions.map((sub) => (
-            <SubmissionReviewCard
-              key={sub.id}
-              sub={sub}
-              user={user}
-              onApprove={() => updateSubmission(sub.id, 'approved')}
-              onReject={() => updateSubmission(sub.id, 'rejected')}
-              onRequestChanges={() => updateSubmission(sub.id, 'changes_requested', 'Please revise and resubmit.')}
-              onSaveEditor={(editorBody, editorNote) => updateSubmissionEditor(sub.id, editorBody, editorNote)}
-              onPublish={(editorBody, editorNote) => {
-                updateSubmissionEditor(sub.id, editorBody, editorNote);
-                return publishSubmission(sub.id);
-              }}
-            />
-          ))}
-        </div>
-      </section>
+      {canReview && (
+        <section>
+          <h2 className="ggon-section-title ggon-label text-lg">{tr('adminReviewQueue')}</h2>
+          <p className="mt-2 max-w-2xl text-sm text-gray-600">{tr('adminReviewQueueIntro')}</p>
+          <div className="mt-4 space-y-4">
+            {reviewQueue.length === 0 && (
+              <p className="text-sm text-gray-500">{tr('adminNoPendingReview')}</p>
+            )}
+            {reviewQueue.map((sub) => (
+              <SubmissionReviewCard
+                key={sub.id}
+                sub={sub}
+                user={user}
+                onApprove={(note) => handleReview(sub.id, 'approved', note)}
+                onReject={(note) => handleReview(sub.id, 'rejected', note)}
+                onRequestChanges={(note) => handleReview(sub.id, 'changes_requested', note)}
+                onSaveEditor={(editorBody, editorNote) => updateSubmissionEditor(sub.id, editorBody, editorNote)}
+                onPublish={(editorBody, editorNote) => {
+                  updateSubmissionEditor(sub.id, editorBody, editorNote);
+                  return publishSubmission(sub.id);
+                }}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {canPublish && (
+        <section>
+          <h2 className="ggon-section-title ggon-label text-lg">{tr('adminPublishQueue')}</h2>
+          <p className="mt-2 max-w-2xl text-sm text-gray-600">{tr('adminPublishQueueIntro')}</p>
+          <div className="mt-4 space-y-4">
+            {publishQueue.length === 0 && (
+              <p className="text-sm text-gray-500">{tr('adminNoAwaitingPublish')}</p>
+            )}
+            {publishQueue.map((sub) => (
+              <SubmissionReviewCard
+                key={sub.id}
+                sub={sub}
+                user={user}
+                onApprove={() => {}}
+                onReject={() => {}}
+                onRequestChanges={() => {}}
+                onSaveEditor={(editorBody, editorNote) => updateSubmissionEditor(sub.id, editorBody, editorNote)}
+                onPublish={(editorBody, editorNote) => {
+                  updateSubmissionEditor(sub.id, editorBody, editorNote);
+                  return publishSubmission(sub.id);
+                }}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {otherSubmissions.length > 0 && (
+        <section>
+          <h2 className="ggon-section-title ggon-label text-lg">{tr('adminOtherSubmissions')}</h2>
+          <div className="mt-4 space-y-4">
+            {otherSubmissions.map((sub) => (
+              <SubmissionReviewCard
+                key={sub.id}
+                sub={sub}
+                user={user}
+                onApprove={() => {}}
+                onReject={() => {}}
+                onRequestChanges={() => {}}
+                onSaveEditor={(editorBody, editorNote) => updateSubmissionEditor(sub.id, editorBody, editorNote)}
+                onPublish={(editorBody, editorNote) => {
+                  updateSubmissionEditor(sub.id, editorBody, editorNote);
+                  return publishSubmission(sub.id);
+                }}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {canApprove && (
         <section>
-          <h2 className="ggon-section-title ggon-label text-lg">Membership approval queue</h2>
+          <h2 className="ggon-section-title ggon-label text-lg">{tr('adminMembershipQueue')}</h2>
           <div className="mt-3 space-y-3">
-            {registrations.length === 0 && <p className="text-sm text-gray-500">No pending registrations.</p>}
+            {registrations.length === 0 && (
+              <p className="text-sm text-gray-500">{tr('adminNoRegistrations')}</p>
+            )}
             {registrations.map((reg) => (
               <div
                 key={reg.id}
@@ -101,11 +202,21 @@ export default function AdminPage() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <button type="button" onClick={() => approveRegistration(reg.id)} className="ggon-btn ggon-btn-teal !text-xs">
-                    Approve
+                  <button
+                    type="button"
+                    onClick={() => approveRegistration(reg.id)}
+                    className="ggon-btn ggon-btn-teal inline-flex items-center gap-1.5 !text-xs"
+                  >
+                    <Check size={ICON_INLINE} strokeWidth={2} aria-hidden />
+                    {tr('approveMember')}
                   </button>
-                  <button type="button" onClick={() => rejectRegistration(reg.id)} className="ggon-btn !text-xs">
-                    Reject
+                  <button
+                    type="button"
+                    onClick={() => rejectRegistration(reg.id)}
+                    className="ggon-btn inline-flex items-center gap-1.5 !text-xs"
+                  >
+                    <X size={ICON_INLINE} strokeWidth={2} aria-hidden />
+                    {tr('rejectMember')}
                   </button>
                 </div>
               </div>
@@ -114,15 +225,15 @@ export default function AdminPage() {
         </section>
       )}
 
-      {user.role === 'owner' && (
+      {canManageTeam(user.role) && (
         <section>
-          <h2 className="ggon-section-title ggon-label text-lg">Team & roles</h2>
+          <h2 className="ggon-section-title ggon-label text-lg">{tr('adminTeamRoles')}</h2>
           <table className="mt-3 w-full text-left text-sm">
             <thead>
               <tr className="border-b text-gray-500">
-                <th className="py-2">Name</th>
-                <th>Email</th>
-                <th>Role</th>
+                <th className="py-2">{tr('adminTeamName')}</th>
+                <th>{tr('adminTeamEmail')}</th>
+                <th>{tr('adminTeamRole')}</th>
               </tr>
             </thead>
             <tbody>
